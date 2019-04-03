@@ -23,6 +23,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/signup',
+    component: 'views/signup/index',
+    hidden: true
+  },
+  {
     path: '/404',
     component: 'views/errorPage/404',
     hidden: true
