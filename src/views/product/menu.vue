@@ -108,7 +108,7 @@
             <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
           </el-select>
         </el-form-item> -->
-        <el-form-item :label="$t('menu.category')" prop="name">
+        <el-form-item :label="$t('menu.category')" prop="category">
           <el-drag-select v-model="selectedCategories" style="width:500px;" multiple placeholder="请选择">
             <el-option v-for="item in categories" :key="item" :label="item" :value="item" />
           </el-drag-select>
@@ -150,8 +150,23 @@
         <el-button type="primary" @click="dialogPvVisible = false">{{ $t('menu.confirm') }}</el-button>
       </span>
     </el-dialog>
-    <!-- </el-tab-pane>
-        </el-tabs> -->
+
+    <el-dialog :visible.sync="dialogCreatCategoryVisible" title="Create Category">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="90px" style="width: 400px; margin-left:50px;">
+        <el-form-item :label="$t('menu.category')" prop="category">
+          <el-input v-model="temp.category" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogCreatCategoryVisible = false">
+          {{ $t('menu.cancel') }}
+        </el-button>
+        <el-button type="primary" @click="dialogStatus==='createCategory'?createCategoryData():updateCategoryData()">
+          {{ $t('menu.confirm') }}
+        </el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -231,6 +246,7 @@ export default {
         createCategory: 'Create Category'
       },
       dialogPvVisible: false,
+      dialogCreatCategoryVisible: false,
       pvData: [],
       rules: {
         type: [{ required: true, message: 'type is required', trigger: 'change' }],
@@ -266,7 +282,7 @@ export default {
           timestamp: 322919028715,
           title: 'manully added data',
           type: 'EU' })
-        this.list = []
+        // this.list = []
         console.log(this.list)
         // Just to simulate the time of the request
         setTimeout(() => {
@@ -321,7 +337,8 @@ export default {
     handleCreateCategory() {
       this.resetTemp()
       this.dialogStatus = 'createCategory'
-      this.dialogFormVisible = true
+      // this.dialogFormVisible = true
+      this.dialogCreatCategoryVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
@@ -341,6 +358,20 @@ export default {
               type: 'success',
               duration: 2000
             })
+          })
+        }
+      })
+    },
+    createCategoryData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          this.categories.push(this.temp.category)
+          this.dialogCreatCategoryVisible = false
+          this.$notify({
+            title: '成功',
+            message: '创建成功',
+            type: 'success',
+            duration: 2000
           })
         }
       })
