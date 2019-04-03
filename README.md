@@ -50,7 +50,7 @@ It is a magical vue admin based on the newest development stack of vue, built-in
 - Desktop: [electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)
 - Typescript: [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template) (Credits: [@Armour](https://github.com/Armour))
 
-**The current version is `4.0-beta`. If you find a problem, please put [issue](https://github.com/PanJiaChen/vue-element-admin/issues/new). If you want to use the old version - stable version, you can switch branches to [tag/3.11.0](https://github.com/PanJiaChen/vue-element-admin/tree/tag/3.11.0)**
+**The current version is `4.0-beta`. If you find a problem, please put [issue](https://github.com/PanJiaChen/vue-element-admin/issues/new). If you want to use the old version - stable version, you can switch branch to [tag/3.11.0](https://github.com/PanJiaChen/vue-element-admin/tree/tag/3.11.0)**
 
 **This project does not support low version browsers (e.g. IE). Please add polyfill by yourself.**
 
@@ -108,7 +108,6 @@ Become a sponsor and get your logo on our README on GitHub with a link to your s
 - Table
   - Dynamic Table
   - Drag And Drop Table
-  - Tree Table
   - Inline Edit Table
 
 - Error Page

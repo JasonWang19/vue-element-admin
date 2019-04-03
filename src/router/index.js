@@ -4,13 +4,12 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 /* Layout */
-import Layout from '@/layout/Layout'
+import Layout from '@/layout'
 
 /* Router Modules */
 import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
-import treeTableRouter from './modules/tree-table'
 import nestedRouter from './modules/nested'
 import productRouter from './modules/product'
 
@@ -177,7 +176,6 @@ export const asyncRoutes = [
   chartsRouter,
   nestedRouter,
   tableRouter,
-  treeTableRouter,
 
   {
     path: '/example',
