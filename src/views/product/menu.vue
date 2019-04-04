@@ -2,12 +2,19 @@
   <div class="app-container">
     <!-- <el-tabs v-model="activeName" style="margin-top:15px;" type="border-card">
       <el-tab-pane label="All"> -->
-    <el-tag
-      v-for="category in categories"
-      :key="category"
-    >
-      {{ category }}
-    </el-tag>
+    <el-container>
+      <el-header>{{ $t('menu.category') }}</el-header>
+      <el-main>
+        <el-tag
+          v-for="category in categories"
+          :key="category"
+          style="margin:10px"
+        >
+          {{ category }}
+        </el-tag>
+      </el-main>
+    </el-container>
+
     <div class="filter-container">
       <el-input v-model="listQuery.title" :placeholder="$t('menu.name')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
 
@@ -451,3 +458,12 @@ export default {
   }
 }
 </script>
+
+<style lang="css" scoped>
+  .el-header{
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: left;
+    line-height: 60px;
+  }
+</style>

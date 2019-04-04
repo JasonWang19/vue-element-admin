@@ -43,16 +43,22 @@
       </el-form-item>
 
       <div style="position:relative">
-        <div>
-          <el-button :loading="loading" type="primary" style="width:40%;margin-bottom:30px;" @click.native.prevent="handleLogin">
-            {{ $t('login.logIn') }}
-          </el-button>
-        </div>
-        <div>
-          <el-button :loading="loading" type="primary" style="width:40%;margin-bottom:30px;" @click.native.prevent="handleSignup">
-            {{ $t('login.signup') }}
-          </el-button>
-        </div>
+        <el-row>
+          <el-col :span="12">
+            <div>
+              <el-button :loading="loading" type="primary" style="width:80%;margin-bottom:30px;" @click.native.prevent="handleLogin">
+                {{ $t('login.logIn') }}
+              </el-button>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div>
+              <el-button :loading="loading" type="primary" style="width:80%;margin-bottom:30px;" @click.native.prevent="handleSignup">
+                {{ $t('login.signup') }}
+              </el-button>
+            </div>
+          </el-col>
+        </el-row>
       </div>
       <div style="position:relative">
         <div class="tips">
@@ -169,6 +175,9 @@ export default {
           return false
         }
       })
+    },
+    handleSignup() {
+      this.$router.push({ path: '/signup' })
     }
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {

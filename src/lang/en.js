@@ -85,6 +85,26 @@ export default {
     thirdparty: 'Or connect with',
     thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !'
   },
+  signup: {
+    title: 'Sign-up',
+    signup: 'Sign-up',
+    cancel: 'Canel',
+    username: 'Account',
+    password: 'Password',
+    name: 'Name',
+    displayName: 'Display Name',
+    license: 'License',
+    storeType: 'Restaurant Type',
+    description: 'Description',
+    address: 'Address',
+    address1: 'Address',
+    district: 'District',
+    city: 'City',
+    state: 'State',
+    country: 'Country',
+    zipcode: 'Postal Code'
+  },
+
   documentation: {
     documentation: 'Documentation',
     github: 'Github Repository'

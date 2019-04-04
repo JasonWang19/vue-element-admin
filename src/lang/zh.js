@@ -85,6 +85,25 @@ export default {
     thirdparty: '第三方登录',
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
   },
+  signup: {
+    title: '系统注册',
+    signup: '注册',
+    cancel: '取消',
+    username: '账号',
+    password: '密码',
+    name: '店名',
+    displayName: '显示店名',
+    license: '许可证',
+    storeType: '餐馆种类',
+    description: '描述',
+    address: '地址',
+    address1: '详细地址',
+    district: '小区',
+    city: '城市',
+    state: '省',
+    country: '国家',
+    zipcode: '邮政编码'
+  },
   documentation: {
     documentation: '文档',
     github: 'Github 地址'
