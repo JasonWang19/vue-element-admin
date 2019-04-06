@@ -76,6 +76,19 @@ export const constantRoutes = [
     component: () => import('@/views/errorPage/401'),
     hidden: true
   },
+  // {
+  //   path: '',
+  //   component: Layout,
+  //   redirect: 'currentOrder',
+  //   children: [
+  //     {
+  //       path: 'currentOrder',
+  //       component: () => import('@/views/currentOrder/index'),
+  //       name: 'CurrentOrder',
+  //       meta: { title: 'currentOrder', icon: 'el-icon-success', noCache: true, affix: true }
+  //     }
+  //   ]
+  // },
   {
     path: '',
     component: Layout,
@@ -121,6 +134,50 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
 */
 export const asyncRoutes = [
+  // product management
+  productRouter,
+  // user management
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/index',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: 'user',
+      icon: 'lock',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'page',
+        component: () => import('@/views/user/page'),
+        name: 'PagePermission',
+        meta: {
+          title: 'pagePermission',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'directive',
+        component: () => import('@/views/user/directive'),
+        name: 'DirectivePermission',
+        meta: {
+          title: 'directivePermission'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        path: 'role',
+        component: () => import('@/views/user/role'),
+        name: 'RolePermission',
+        meta: {
+          title: 'rolePermission',
+          roles: ['admin']
+        }
+      }
+    ]
+  },
+
   {
     path: '/permission',
     component: Layout,
@@ -176,7 +233,6 @@ export const asyncRoutes = [
   },
 
   /** when your routing map is too long, you can split it into small modules **/
-  productRouter,
   componentsRouter,
   chartsRouter,
   nestedRouter,

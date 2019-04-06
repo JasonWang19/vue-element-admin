@@ -12,104 +12,100 @@
         <h3 class="title">{{ $t('signup.title') }}</h3>
         <lang-select class="set-language" />
       </div>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item :label="$t('signup.name')">
-            <el-input v-model="signupForm.name" />
-          </el-form-item>
-          <el-form-item :label="$t('signup.displayName')">
-            <el-input v-model="signupForm.displayName" />
-          </el-form-item>
-          <el-form-item :label="$t('signup.storeType')">
-            <el-select v-model="signupForm.storeType">
-              <el-option label="Zone one" value="shanghai" />
-              <el-option label="Zone two" value="beijing" />
-            </el-select>
-          </el-form-item>
+      <div>
+        <el-form-item :label="$t('signup.name')">
+          <el-input v-model="signupForm.name" />
+        </el-form-item>
+        <el-form-item :label="$t('signup.displayName')">
+          <el-input v-model="signupForm.displayName" />
+        </el-form-item>
+        <el-form-item :label="$t('signup.storeType')">
+          <el-select v-model="signupForm.storeType">
+            <el-option label="Zone one" value="shanghai" />
+            <el-option label="Zone two" value="beijing" />
+          </el-select>
+        </el-form-item>
 
-          <el-form-item :label="$t('signup.description')">
-            <el-input v-model="signupForm.description" type="textarea" />
-          </el-form-item>
+        <el-form-item :label="$t('signup.description')">
+          <el-input v-model="signupForm.description" type="textarea" />
+        </el-form-item>
+        <el-container>
           <el-container>
-            <el-container>
-              <el-aside width="100px">{{ $t('signup.address') }}</el-aside>
-              <el-main>
-                <el-form-item :label="$t('signup.address1')">
-                  <el-input v-model="signupForm.address1" />
-                </el-form-item>
-                <el-form-item :label="$t('signup.district')">
-                  <el-input v-model="signupForm.district" />
-                </el-form-item>
-                <el-form-item :label="$t('signup.city')">
-                  <el-input v-model="signupForm.city" />
-                </el-form-item>
-                <el-form-item :label="$t('signup.state')">
-                  <el-input v-model="signupForm.state" />
-                </el-form-item>
-                <el-form-item :label="$t('signup.country')">
-                  <el-input v-model="signupForm.country" />
-                </el-form-item>
-              </el-main>
-            </el-container>
+            <el-aside width="100px">{{ $t('signup.address') }}</el-aside>
+            <el-main>
+              <el-form-item :label="$t('signup.address1')">
+                <el-input v-model="signupForm.address1" />
+              </el-form-item>
+              <el-form-item :label="$t('signup.district')">
+                <el-input v-model="signupForm.district" />
+              </el-form-item>
+              <el-form-item :label="$t('signup.city')">
+                <el-input v-model="signupForm.city" />
+              </el-form-item>
+              <el-form-item :label="$t('signup.state')">
+                <el-input v-model="signupForm.state" />
+              </el-form-item>
+              <el-form-item :label="$t('signup.country')">
+                <el-input v-model="signupForm.country" />
+              </el-form-item>
+            </el-main>
           </el-container>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="username">
-            <span class="svg-container">
-              <svg-icon icon-class="user" />
-            </span>
-            <el-input
-              v-model="signupForm.username"
-              :placeholder="$t('signup.username')"
-              name="username"
-              type="text"
-              auto-complete="on"
-            />
-          </el-form-item>
+        </el-container>
+        <el-form-item prop="username">
+          <span class="svg-container">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input
+            v-model="signupForm.username"
+            :placeholder="$t('signup.username')"
+            name="username"
+            type="text"
+            auto-complete="on"
+          />
+        </el-form-item>
 
-          <el-form-item prop="password">
-            <span class="svg-container">
-              <svg-icon icon-class="password" />
-            </span>
-            <el-input
-              :key="passwordType"
-              v-model="signupForm.password"
-              :type="passwordType"
-              :placeholder="$t('signup.password')"
-              name="password"
-              auto-complete="on"
-              @keyup.enter.native="handleLogin"
-            />
-            <span class="show-pwd" @click="showPwd">
-              <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-            </span>
-          </el-form-item>
-          <div style="position:relative">
-            <el-row>
-              <el-col :span="12">
-                <div>
-                  <el-button
-                    :loading="loading"
-                    type="primary"
-                    style="width:80%;margin-bottom:30px;"
-                    @click.native.prevent="handleSignup"
-                  >{{ $t('signup.signup') }}</el-button>
-                </div>
-              </el-col>
-              <el-col :span="12">
-                <div>
-                  <el-button
-                    :loading="loading"
-                    type="primary"
-                    style="width:80%;margin-bottom:30px;"
-                    @click.native.prevent="handleCancel"
-                  >{{ $t('signup.cancel') }}</el-button>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-        </el-col>
-      </el-row>
+        <el-form-item prop="password">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input
+            :key="passwordType"
+            v-model="signupForm.password"
+            :type="passwordType"
+            :placeholder="$t('signup.password')"
+            name="password"
+            auto-complete="on"
+            @keyup.enter.native="handleLogin"
+          />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
+        <div style="position:relative">
+          <el-row>
+            <el-col :span="12">
+              <div>
+                <el-button
+                  :loading="loading"
+                  type="primary"
+                  style="width:80%;margin-bottom:30px;"
+                  @click.native.prevent="handleSignup"
+                >{{ $t('signup.signup') }}</el-button>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div>
+                <el-button
+                  :loading="loading"
+                  type="primary"
+                  style="width:80%;margin-bottom:30px;"
+                  @click.native.prevent="handleCancel"
+                >{{ $t('signup.cancel') }}</el-button>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
     </el-form>
   </div>
 </template>
@@ -117,6 +113,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
+import { fetchMenu } from '@/api/product'
 
 export default {
   name: 'Signup',
@@ -178,7 +175,10 @@ export default {
       }
     },
     handleSignup() {
-      this.$router.push({ path: '/signup' })
+      // this.$router.push({ path: '/signup' })
+      fetchMenu().then(response => {
+        console.log('response: ', response)
+      })
     },
     handleCancel() {
       this.$router.push({ path: '/' })

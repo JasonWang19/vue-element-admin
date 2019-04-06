@@ -6,10 +6,11 @@ const productRouter = {
   path: '/product',
   component: Layout,
   redirect: '/product/menu',
+  alwaysShow: true, // will always show the root menu
   name: 'Product',
   meta: {
     title: 'Product',
-    icon: 'table'
+    icon: 'clipboard'
   },
   children: [
     {

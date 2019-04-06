@@ -1,6 +1,7 @@
 export default {
   route: {
     dashboard: '首页',
+    // currentOrder: '及时订单',
     introduction: '简述',
     documentation: '文档',
     guide: '引导页',
@@ -12,6 +13,7 @@ export default {
     components: '组件',
     menu: '菜单管理',
     product: '产品管理',
+    user: '用户管理',
     componentIndex: '介绍',
     tinymce: '富文本编辑器',
     markdown: 'Markdown',
@@ -41,7 +43,8 @@ export default {
     'menu1-3': '菜单1-3',
     menu2: '菜单2',
     Table: 'Table',
-    Product: 'Product',
+    Product: '产品管理',
+    User: '用户管理',
     dynamicTable: '动态Table',
     dragTable: '拖拽Table',
     inlineEditTable: 'Table内编辑',
@@ -86,7 +89,7 @@ export default {
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
   },
   signup: {
-    title: '系统注册',
+    title: '店铺注册',
     signup: '注册',
     cancel: '取消',
     username: '账号',
@@ -103,6 +106,16 @@ export default {
     state: '省',
     country: '国家',
     zipcode: '邮政编码'
+  },
+  user: {
+    addRole: '新增角色',
+    editPermission: '编辑权限!',
+    roles: '你的权限!',
+    switchRoles: '切换权限',
+    tips: '在某些情况下，不适合使用 v-permission。例如：Element-UI 的 Tab 组件或 el-table-column 以及其它动态渲染 dom 的场景。你只能通过手动设置 v-if 来实现。',
+    delete: '删除',
+    confirm: '确定',
+    cancel: '取消'
   },
   documentation: {
     documentation: '文档',

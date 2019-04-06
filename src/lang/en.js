@@ -1,6 +1,7 @@
 export default {
   route: {
     dashboard: 'Dashboard',
+    // currentOrder: 'Orders',
     introduction: 'Introduction',
     documentation: 'Documentation',
     guide: 'Guide',
@@ -12,6 +13,7 @@ export default {
     components: 'Components',
     menu: 'Menu Management',
     product: 'Product Management',
+    user: 'User Management',
     componentIndex: 'Introduction',
     tinymce: 'Tinymce',
     markdown: 'Markdown',
@@ -41,7 +43,8 @@ export default {
     'menu1-3': 'Menu 1-3',
     menu2: 'Menu 2',
     Table: 'Table',
-    Product: 'Product',
+    Product: 'Product Management',
+    User: 'User Management',
     dynamicTable: 'Dynamic Table',
     dragTable: 'Drag Table',
     inlineEditTable: 'Inline Edit',
