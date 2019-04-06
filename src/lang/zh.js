@@ -1,4 +1,12 @@
 export default {
+  common: {
+    add: '添加',
+    cancel: '取消',
+    confirm: '确认',
+    delete: '删除',
+    edit: '编辑'
+  },
+
   route: {
     dashboard: '首页',
     // currentOrder: '及时订单',
@@ -9,6 +17,7 @@ export default {
     rolePermission: '角色权限',
     pagePermission: '页面权限',
     directivePermission: '指令权限',
+    assignPermission: '用户赋权',
     icons: '图标',
     components: '组件',
     menu: '菜单管理',
@@ -109,13 +118,18 @@ export default {
   },
   user: {
     addRole: '新增角色',
-    editPermission: '编辑权限!',
-    roles: '你的权限!',
-    switchRoles: '切换权限',
-    tips: '在某些情况下，不适合使用 v-permission。例如：Element-UI 的 Tab 组件或 el-table-column 以及其它动态渲染 dom 的场景。你只能通过手动设置 v-if 来实现。',
+    editPermission: '编辑权限',
+    roles: '您当前权限',
     delete: '删除',
     confirm: '确定',
-    cancel: '取消'
+    cancel: '取消',
+    role: '角色',
+    name: '姓名',
+    username: '用户名',
+    ts: '时间',
+    search: '输入用户名或者姓名',
+    addUser: '添加用户',
+    deleteUsers: '删除用户'
   },
   documentation: {
     documentation: '文档',
@@ -154,8 +168,7 @@ export default {
     type: '类型',
     remark: '点评',
     search: '搜索',
-    addCategory: '添加种类',
-    add: '添加菜品',
+    add: '添加',
     export: '导出',
     reviewer: '审核人',
     id: '序号',

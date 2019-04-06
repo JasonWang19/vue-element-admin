@@ -1,4 +1,11 @@
 export default {
+  common: {
+    add: 'Add',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    delete: 'Delete',
+    edit: 'Edit'
+  },
   route: {
     dashboard: 'Dashboard',
     // currentOrder: 'Orders',
@@ -9,6 +16,7 @@ export default {
     pagePermission: 'Page Permission',
     rolePermission: 'Role Permission',
     directivePermission: 'Directive Permission',
+    assignPermission: 'Assign Permission',
     icons: 'Icons',
     components: 'Components',
     menu: 'Menu Management',
@@ -107,7 +115,21 @@ export default {
     country: 'Country',
     zipcode: 'Postal Code'
   },
-
+  user: {
+    addRole: 'New Role',
+    editPermission: 'Edit Permission',
+    roles: 'Your current role',
+    delete: 'Delete',
+    confirm: 'Confirm',
+    cancel: 'Cancel',
+    role: 'Role',
+    name: 'Name',
+    username: 'UserName',
+    ts: 'Date',
+    search: 'Input username or name to search',
+    addUser: 'Add User',
+    deleteUsers: 'Delete Users'
+  },
   documentation: {
     documentation: 'Documentation',
     github: 'Github Repository'
@@ -145,8 +167,7 @@ export default {
     type: 'Type',
     remark: 'Remark',
     search: 'Search',
-    addCategory: 'Add Category',
-    add: 'Add Dish',
+    add: 'Add',
     export: 'Export',
     reviewer: 'reviewer',
     id: 'ID',
