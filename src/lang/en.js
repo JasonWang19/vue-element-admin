@@ -4,7 +4,9 @@ export default {
     cancel: 'Cancel',
     confirm: 'Confirm',
     delete: 'Delete',
-    edit: 'Edit'
+    edit: 'Edit',
+    saveDraft: 'Save Draft',
+    actions: 'Actions'
   },
   route: {
     dashboard: 'Dashboard',
@@ -22,6 +24,7 @@ export default {
     menu: 'Menu Management',
     product: 'Product Management',
     user: 'User Management',
+    store: 'Store Management',
     componentIndex: 'Introduction',
     tinymce: 'Tinymce',
     markdown: 'Markdown',
@@ -114,6 +117,31 @@ export default {
     state: 'State',
     country: 'Country',
     zipcode: 'Postal Code'
+  },
+  storedetail: {
+    add: 'Add New Restaurant',
+    delete: 'Remove Restaurant',
+    name: 'Name',
+    displayName: 'Display Name',
+    license: 'License',
+    storeType: 'Restaurant Type',
+    description: 'Description',
+    address: 'Address',
+    address1: 'Address',
+    district: 'District',
+    city: 'City',
+    state: 'State',
+    country: 'Country',
+    zipcode: 'Postal Code',
+    contact: 'Contact',
+    phoneNumber: 'Phone',
+    email: 'Email',
+    web: 'Webpage',
+    facebook: 'Facebook',
+    yelp: 'Yelp',
+    search: 'Input store name or display name to search',
+    check: 'Detail',
+    title: 'Restaurant Detail'
   },
   user: {
     addRole: 'New Role',

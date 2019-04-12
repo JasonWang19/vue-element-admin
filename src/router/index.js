@@ -134,6 +134,19 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
 */
 export const asyncRoutes = [
+  // store management
+  {
+    path: '/store',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/store/index'),
+        name: 'Store',
+        meta: { title: 'store', icon: 'store', noCache: true }
+      }
+    ]
+  },
   // product management
   productRouter,
   // user management
@@ -218,7 +231,6 @@ export const asyncRoutes = [
       }
     ]
   },
-
   {
     path: '/icon',
     component: Layout,

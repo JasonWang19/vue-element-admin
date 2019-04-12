@@ -11,7 +11,22 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
+        <el-dropdown split-button type="primary">
+          {{ currentStore }}
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>Action 1</el-dropdown-item>
+            <el-dropdown-item>Action 2</el-dropdown-item>
+            <el-dropdown-item>Action 3</el-dropdown-item>
+            <el-dropdown-item disabled>Action 4</el-dropdown-item>
+            <el-dropdown-item divided>Action 5</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <sidebar-item
+          v-for="route in permission_routes"
+          :key="route.path"
+          :item="route"
+          :base-path="route.path"
+        />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -26,10 +41,10 @@ import variables from '@/styles/variables.scss'
 export default {
   components: { SidebarItem, Logo },
   computed: {
-    ...mapGetters([
-      'permission_routes',
-      'sidebar'
-    ]),
+    ...mapGetters(['permission_routes', 'sidebar']),
+    ...mapGetters({
+      currentStore: 'storeDetails/currentStore'
+    }),
     showLogo() {
       return this.$store.state.settings.sidebarLogo
     },

@@ -4,7 +4,9 @@ export default {
     cancel: '取消',
     confirm: '确认',
     delete: '删除',
-    edit: '编辑'
+    edit: '编辑',
+    saveDraft: '保存草稿',
+    actions: '操作'
   },
 
   route: {
@@ -23,6 +25,7 @@ export default {
     menu: '菜单管理',
     product: '产品管理',
     user: '用户管理',
+    store: '商铺管理',
     componentIndex: '介绍',
     tinymce: '富文本编辑器',
     markdown: 'Markdown',
@@ -115,6 +118,31 @@ export default {
     state: '省',
     country: '国家',
     zipcode: '邮政编码'
+  },
+  storedetail: {
+    add: '添加新店铺',
+    delete: '删除店铺',
+    name: '店名',
+    displayName: '显示店名',
+    license: '许可证',
+    storeType: '餐馆种类',
+    description: '描述',
+    address: '地址',
+    address1: '详细地址',
+    district: '小区',
+    city: '城市',
+    state: '省',
+    country: '国家',
+    zipcode: '邮政编码',
+    contact: '联系方式',
+    phoneNumber: '电话',
+    email: 'email',
+    web: '网页',
+    facebook: 'facebook',
+    yelp: 'yelp',
+    search: '输入店名',
+    check: '详情',
+    title: '店铺详情'
   },
   user: {
     addRole: '新增角色',
