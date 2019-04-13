@@ -6,7 +6,8 @@ export default {
     delete: '删除',
     edit: '编辑',
     saveDraft: '保存草稿',
-    actions: '操作'
+    actions: '操作',
+    noStore: '未创建店铺'
   },
 
   route: {
@@ -141,8 +142,10 @@ export default {
     facebook: 'facebook',
     yelp: 'yelp',
     search: '输入店名',
-    check: '详情',
-    title: '店铺详情'
+    check: '查看',
+    title: '店铺详情',
+    status: '当前状态',
+    create: '创建'
   },
   user: {
     addRole: '新增角色',

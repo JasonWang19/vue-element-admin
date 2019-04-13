@@ -1,31 +1,32 @@
 const state = {
   allStores: [
-    {
-      id: 'id1',
-      name: 'store name',
-      license: 'license',
-      displayName: 'branchName',
-      storeType: 'single',
-      description: 'desc',
-      address: {
-        address1: 'line1',
-        address2: 'line2',
-        district: 'district',
-        city: 'city',
-        state: 'state',
-        country: 'country',
-        zipcode: 'zipcode',
-        nickname: 'nickname'
-      },
-      contact: {
-        phoneNumber: 'phone',
-        email: 'email',
-        web: 'web',
-        facebook: 'facebook',
-        yelp: 'yelp',
-        others: {}
-      }
-    }
+    // {
+    //   id: 'id1',
+    //   name: 'store name',
+    //   license: 'license',
+    //   displayName: 'branchName',
+    //   storeType: 'single',
+    //   description: 'desc',
+    //   status:'normal',
+    //   address: {
+    //     address1: 'line1',
+    //     address2: 'line2',
+    //     district: 'district',
+    //     city: 'city',
+    //     state: 'state',
+    //     country: 'country',
+    //     zipcode: 'zipcode',
+    //     nickname: 'nickname'
+    //   },
+    //   contact: {
+    //     phoneNumber: 'phone',
+    //     email: 'email',
+    //     web: 'web',
+    //     facebook: 'facebook',
+    //     yelp: 'yelp',
+    //     others: {}
+    //   }
+    // }
   ],
   currentStore: ''
 }
@@ -36,19 +37,21 @@ const getters = {
   },
   currentStore: state => {
     if (state.currentStore === '') {
-      state.currentStore = state.allStores.length > 0 ? state.allStores[0].name : 'No Store'
+      state.currentStore = state.allStores.length > 0 ? state.allStores[0] : null
     }
     return state.currentStore
   }
 }
 const mutations = {
-  CHANGE_CURRENT_STORE: (state, { key, value }) => {
-    state[key] = value
+  CHANGE_CURRENT_STORE: (state, id) => {
+    state.currentStore = state.allStores.filter(s => s.id === id)[0]
   },
   UPDATE_STORE: (STATE, detail) => {
+    // TODO: temporary solution
+    detail.id = detail.id !== '' ? detail.id : new Date().getTime()
     state.allStores = state.allStores.filter(s => s.id !== detail.id)
     state.allStores.push(detail)
-    state.allStores.sort((a, b) => a.name > b.name)
+    console.log('new stores', state.allStores)
   },
   ADD_NEW_STORE: (state) => {
     console.log('mutation: add new store')

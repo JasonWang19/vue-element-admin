@@ -6,7 +6,8 @@ export default {
     delete: 'Delete',
     edit: 'Edit',
     saveDraft: 'Save Draft',
-    actions: 'Actions'
+    actions: 'Actions',
+    noStore: 'No Store'
   },
   route: {
     dashboard: 'Dashboard',
@@ -141,7 +142,9 @@ export default {
     yelp: 'Yelp',
     search: 'Input store name or display name to search',
     check: 'Detail',
-    title: 'Restaurant Detail'
+    title: 'Restaurant Detail',
+    status: 'Current Status',
+    create: 'Create'
   },
   user: {
     addRole: 'New Role',

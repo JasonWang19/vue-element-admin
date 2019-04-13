@@ -11,14 +11,10 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <el-dropdown split-button type="primary">
-          {{ currentStore }}
+        <el-dropdown split-button type="primary" @command="changeCurrentStore">
+          {{ currentStore !== null ? currentStore.name : $t('common.noStore') }}
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>Action 1</el-dropdown-item>
-            <el-dropdown-item>Action 2</el-dropdown-item>
-            <el-dropdown-item>Action 3</el-dropdown-item>
-            <el-dropdown-item disabled>Action 4</el-dropdown-item>
-            <el-dropdown-item divided>Action 5</el-dropdown-item>
+            <el-dropdown-item v-for="detail in details" :key="detail.id" :command="detail.id">{{ detail.name }}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <sidebar-item
@@ -40,10 +36,17 @@ import variables from '@/styles/variables.scss'
 
 export default {
   components: { SidebarItem, Logo },
+  methods: {
+    changeCurrentStore(command) {
+      console.log('change current store: ', command)
+      this.$store.dispatch('storeDetails/changeCurrentStore', command)
+    }
+  },
   computed: {
     ...mapGetters(['permission_routes', 'sidebar']),
     ...mapGetters({
-      currentStore: 'storeDetails/currentStore'
+      currentStore: 'storeDetails/currentStore',
+      details: 'storeDetails/details'
     }),
     showLogo() {
       return this.$store.state.settings.sidebarLogo
