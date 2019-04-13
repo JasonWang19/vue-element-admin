@@ -7,7 +7,8 @@ export default {
     edit: 'Edit',
     saveDraft: 'Save Draft',
     actions: 'Actions',
-    noStore: 'No Store'
+    noStore: 'No Store',
+    signup: 'Sign-up'
   },
   route: {
     dashboard: 'Dashboard',
@@ -93,7 +94,6 @@ export default {
   login: {
     title: 'Login',
     logIn: 'Log in',
-    signup: 'Sign-up',
     username: 'Username',
     password: 'Password',
     any: 'any',
@@ -101,8 +101,7 @@ export default {
     thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !'
   },
   signup: {
-    title: 'Sign-up',
-    signup: 'Sign-up',
+    title: 'User Sign-up',
     cancel: 'Canel',
     username: 'Account',
     password: 'Password',

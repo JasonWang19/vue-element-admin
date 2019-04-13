@@ -102,7 +102,7 @@ export default {
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
   },
   signup: {
-    title: '店铺注册',
+    title: '用户注册',
     signup: '注册',
     cancel: '取消',
     username: '账号',

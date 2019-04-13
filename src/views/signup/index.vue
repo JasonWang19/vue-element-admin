@@ -13,44 +13,6 @@
         <lang-select class="set-language" />
       </div>
       <div>
-        <el-form-item :label="$t('signup.name')">
-          <el-input v-model="signupForm.name" />
-        </el-form-item>
-        <el-form-item :label="$t('signup.displayName')">
-          <el-input v-model="signupForm.displayName" />
-        </el-form-item>
-        <el-form-item :label="$t('signup.storeType')">
-          <el-select v-model="signupForm.storeType">
-            <el-option label="Zone one" value="shanghai" />
-            <el-option label="Zone two" value="beijing" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item :label="$t('signup.description')">
-          <el-input v-model="signupForm.description" type="textarea" />
-        </el-form-item>
-        <el-container>
-          <el-container>
-            <el-aside width="100px">{{ $t('signup.address') }}</el-aside>
-            <el-main>
-              <el-form-item :label="$t('signup.address1')">
-                <el-input v-model="signupForm.address1" />
-              </el-form-item>
-              <el-form-item :label="$t('signup.district')">
-                <el-input v-model="signupForm.district" />
-              </el-form-item>
-              <el-form-item :label="$t('signup.city')">
-                <el-input v-model="signupForm.city" />
-              </el-form-item>
-              <el-form-item :label="$t('signup.state')">
-                <el-input v-model="signupForm.state" />
-              </el-form-item>
-              <el-form-item :label="$t('signup.country')">
-                <el-input v-model="signupForm.country" />
-              </el-form-item>
-            </el-main>
-          </el-container>
-        </el-container>
         <el-form-item prop="username">
           <span class="svg-container">
             <svg-icon icon-class="user" />
