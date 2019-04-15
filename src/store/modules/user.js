@@ -1,6 +1,7 @@
 'use strict'
 
-import { login, logout, getInfo } from '@/api/user'
+// import { login, logout, getInfo } from '@/api/user'
+import { login, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
@@ -10,7 +11,7 @@ const state = {
   // avatar: '',
   // introduction: '',
   roles: [],
-  details: {}
+  details: null
 }
 
 const mutations = {
@@ -33,6 +34,7 @@ const mutations = {
     state.avatar = avatar
   },
   SET_ROLES: (state, roles) => {
+    console.log('setting the roles: ', roles)
     state.roles = roles
   }
 }
@@ -62,7 +64,7 @@ const actions = {
         username: state.username
       })
         .then(data => {
-        // data is used here since the response is intercepted in request.js
+          // data is used here since the response is intercepted in request.js
 
           console.log('get info: ', data)
 
@@ -95,20 +97,26 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resetRouter()
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      // logout(state.token).then(() => {
+      //   commit('SET_TOKEN', '')
+      //   commit('SET_ROLES', [])
+      //   removeToken()
+      //   resetRouter()
+      //   resolve()
+      // }).catch(error => {
+      //   reject(error)
+      // })
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
+      removeToken()
+      resetRouter()
+      resolve()
     })
   },
 
   // remove token
   resetToken({ commit }) {
+    console.log('in reset token')
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])

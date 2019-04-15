@@ -16,6 +16,7 @@ router.beforeEach(async(to, from, next) => {
   // determine whether the user has logged in
   const hasToken = getToken()
 
+  console.log('in permission, token is: ', hasToken)
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
@@ -23,14 +24,21 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     } else {
       // determine whether the user has obtained his permission roles through getInfo
+
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
+      console.log('in permission to check current role: ', store.getters.roles, '  hasRoles: ', hasRoles)
+      // const hasRoles = store.getters.roles
       if (hasRoles) {
         next()
       } else {
         try {
+          // TODO: fix this part, need to avoid using this since no user information passed in
+
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
           const { roles } = await store.dispatch('user/getInfo')
+
+          console.log('in permission to generate path, roles: ', roles)
 
           // generate accessible routes map based on roles
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
@@ -42,6 +50,7 @@ router.beforeEach(async(to, from, next) => {
           // set the replace: true, so the navigation will not leave a history record
           next({ ...to, replace: true })
         } catch (error) {
+          console.log('in permission, error: ', error)
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
