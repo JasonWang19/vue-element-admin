@@ -1,18 +1,10 @@
 import request from '@/utils/request'
 
-export function fetchMenu(query) {
-  console.log('fetchMenu', query)
+export function fetchMenu(menuId) {
+  console.log('fetchMenu', menuId)
   return request({
-    url: '/store/name/name',
+    url: `/restaurant/menu/${menuId}`,
     method: 'get'
-  })
-}
-
-export function fetchArticle(id) {
-  return request({
-    url: '/article/detail',
-    method: 'get',
-    params: { id }
   })
 }
 
@@ -24,17 +16,9 @@ export function fetchPv(pv) {
   })
 }
 
-export function createArticle(data) {
+export function updateMenu(data) {
   return request({
-    url: '/article/create',
-    method: 'post',
-    data
-  })
-}
-
-export function updateArticle(data) {
-  return request({
-    url: '/article/update',
+    url: '/restaurant/menu',
     method: 'post',
     data
   })

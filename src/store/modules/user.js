@@ -1,7 +1,7 @@
 'use strict'
 
 // import { login, logout, getInfo } from '@/api/user'
-import { login, getInfo } from '@/api/user'
+import { login, getInfo, linkStore } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
@@ -36,6 +36,10 @@ const mutations = {
   SET_ROLES: (state, roles) => {
     console.log('setting the roles: ', roles)
     state.roles = roles
+  },
+  UPDATE_ROLE: (state, role) => {
+    state.details.userShopRoles = state.details.userShopRoles.filter(r => r.shopId !== role.shopId)
+    state.details.userShopRoles.push(role)
   }
 }
 
@@ -57,7 +61,7 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getInfo({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
       getInfo({
         token: state.token,
@@ -87,6 +91,11 @@ const actions = {
           commit('SET_USER_DETAILS', data)
           // commit('SET_AVATAR', avatar)
           // commit('SET_INTRODUCTION', introduction)
+
+          // trigger the update of the stores linked with user
+          console.log('before dispatch to getStoreInfo', data.userShopRoles)
+          dispatch('storeDetails/getStoreInfo', data.userShopRoles, { root: true })
+          dispatch('product/fetchMenu', data.userShopRoles, { root: true })
           resolve(data)
         }).catch(error => {
           reject(error)
@@ -144,6 +153,21 @@ const actions = {
       router.addRoutes(accessRoutes)
 
       resolve()
+    })
+  },
+
+  linkStore({ commit, state }, { shopId, shopType }) {
+    return new Promise((resolve, reject) => {
+      linkStore({
+        username: state.details.username,
+        shopType,
+        shopId
+      }).then(data => {
+        console.log('link store get resp: ', data)
+        commit('UPDATE_ROLE', data)
+      }).catch(err => {
+        reject('Cannot link store with user', err)
+      })
     })
   }
 }

@@ -12,6 +12,12 @@ const getters = {
   roles: state => state.user.roles,
   permission_routes: state => state.permission.routes,
   addRoutes: state => state.permission.addRoutes,
-  errorLogs: state => state.errorLog.logs
+  errorLogs: state => state.errorLog.logs,
+  currentMenu: state => {
+    if (state.storeDetails.currentStore !== null && state.product.menus !== null && state.product.menus.length > 0) {
+      return state.product.menus.filter(m => m.restaurantId === state.storeDetails.currentStore.id)[0]
+    }
+    return undefined
+  }
 }
 export default getters

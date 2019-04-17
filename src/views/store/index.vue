@@ -213,7 +213,7 @@
                   :loading="loading"
                   type="primary"
                   style="width:80%;margin-bottom:30px;"
-                  @click.native.prevent="handleConfirm"
+                  @click.native.prevent="handleAdd"
                 >{{ $t('common.confirm') }}</el-button>
                 <el-button
                   :loading="loading"
@@ -286,6 +286,43 @@ export default {
       }
     }
   },
+  computed: {
+    // detail() {
+    //   const val = this.$store.getters['storeDetails/details'].filter(s => s.id === this.storeid)[0]
+    //   console.log(this.storeid, val)
+    //   return val
+    // },
+    newStore() {
+      return {
+        name: 'New Store',
+        license: '',
+        displayName: '',
+        storeType: '',
+        description: '',
+        address: {
+          address1: '',
+          address2: '',
+          district: '',
+          city: '',
+          state: '',
+          country: '',
+          zipcode: '',
+          nickname: ''
+        },
+        contact: {
+          phoneNumber: '',
+          email: '',
+          web: '',
+          facebook: '',
+          yelp: '',
+          others: {}
+        }
+      }
+    },
+    ...mapGetters({
+      details: 'storeDetails/details'
+    })
+  },
   methods: {
     clear() {
       this.detail = { address: {}, contact: {}}
@@ -329,58 +366,27 @@ export default {
       this.clear()
       this.dialogStoreFormVisible = false
     },
-    handleConfirm() {
+    handleAdd() {
       this.storedetailForm['status'] = 'pending'
       this.updateStore()
     },
+    handleConfirm() {
+      this.updateStore()
+    },
+
     handleDraft() {
       this.storedetailForm['status'] = 'draft'
       this.updateStore()
     },
     updateStore() {
-      this.$store.dispatch('storeDetails/updateStore', this.storedetailForm)
+      this.$store.dispatch('storeDetails/updateStore', {
+        storeDetail: this.storedetailForm,
+        mode: this.mode
+      })
       this.dialogStoreFormVisible = false
       this.mode = ''
       this.clear()
     }
-  },
-  computed: {
-    // detail() {
-    //   const val = this.$store.getters['storeDetails/details'].filter(s => s.id === this.storeid)[0]
-    //   console.log(this.storeid, val)
-    //   return val
-    // },
-    newStore() {
-      return {
-        id: '',
-        name: 'New Store',
-        license: '',
-        displayName: '',
-        storeType: '',
-        description: '',
-        address: {
-          address1: '',
-          address2: '',
-          district: '',
-          city: '',
-          state: '',
-          country: '',
-          zipcode: '',
-          nickname: ''
-        },
-        contact: {
-          phoneNumber: '',
-          email: '',
-          web: '',
-          facebook: '',
-          yelp: '',
-          others: {}
-        }
-      }
-    },
-    ...mapGetters({
-      details: 'storeDetails/details'
-    })
   }
 }
 </script>

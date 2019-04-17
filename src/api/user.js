@@ -30,3 +30,11 @@ export function logout() {
   })
 }
 
+export function linkStore({ username, shopType, shopId }) {
+  console.log('api call to link store: ', username, shopType, shopId)
+  return request({
+    url: `/user/hack/${username}/${shopType}/${shopId}/owner`,
+    method: 'put'
+  })
+}
+

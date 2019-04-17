@@ -221,6 +221,8 @@ export default {
     rating: '评分',
     category: '类型',
     search: '搜索',
+    price: '价格',
+    listPrice: '显示价格',
     addCategory: '添加种类',
     add: '添加菜品',
     export: '导出',

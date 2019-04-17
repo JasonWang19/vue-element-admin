@@ -7,6 +7,7 @@ import tagsView from './modules/tagsView'
 import settings from './modules/settings'
 import user from './modules/user'
 import storeDetails from './modules/storeDetails'
+import product from './modules/product'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -19,7 +20,8 @@ const store = new Vuex.Store({
     tagsView,
     settings,
     user,
-    storeDetails
+    storeDetails,
+    product
   },
   getters
 })

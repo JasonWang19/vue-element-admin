@@ -219,6 +219,8 @@ export default {
     rating: 'Rating',
     category: 'Category',
     search: 'Search',
+    price: 'Price',
+    listPrice: 'List Price',
     addCategory: 'Add Category',
     add: 'Add Dish',
     export: 'Export',
