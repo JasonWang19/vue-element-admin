@@ -54,7 +54,7 @@
           <el-col :span="12">
             <div>
               <el-button :loading="loading" type="primary" style="width:80%;margin-bottom:30px;" @click.native.prevent="handleSignup">
-                {{ $t('login.signup') }}
+                {{ $t('common.signup') }}
               </el-button>
             </div>
           </el-col>

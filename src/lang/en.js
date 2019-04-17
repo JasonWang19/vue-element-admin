@@ -8,7 +8,11 @@ export default {
     saveDraft: 'Save Draft',
     actions: 'Actions',
     noStore: 'No Store',
-    signup: 'Sign-up'
+    signup: 'Sign-up',
+    phoneNumber: 'Phone',
+    email: 'Email',
+    firstName: 'First Name',
+    lastName: 'Last Name'
   },
   route: {
     dashboard: 'Dashboard',
@@ -134,8 +138,6 @@ export default {
     country: 'Country',
     zipcode: 'Postal Code',
     contact: 'Contact',
-    phoneNumber: 'Phone',
-    email: 'Email',
     web: 'Webpage',
     facebook: 'Facebook',
     yelp: 'Yelp',

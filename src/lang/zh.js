@@ -7,7 +7,12 @@ export default {
     edit: '编辑',
     saveDraft: '保存草稿',
     actions: '操作',
-    noStore: '未创建店铺'
+    noStore: '未创建店铺',
+    signup: '注册',
+    phoneNumber: '电话',
+    email: 'email',
+    firstName: '名字',
+    lastName: '姓氏'
   },
 
   route: {
@@ -94,7 +99,6 @@ export default {
   login: {
     title: '系统登录',
     logIn: '登录',
-    signup: '注册',
     username: '账号',
     password: '密码',
     any: '随便填',
@@ -103,7 +107,6 @@ export default {
   },
   signup: {
     title: '用户注册',
-    signup: '注册',
     cancel: '取消',
     username: '账号',
     password: '密码',
@@ -136,8 +139,6 @@ export default {
     country: '国家',
     zipcode: '邮政编码',
     contact: '联系方式',
-    phoneNumber: '电话',
-    email: 'email',
     web: '网页',
     facebook: 'facebook',
     yelp: 'yelp',

@@ -25,7 +25,6 @@
             auto-complete="on"
           />
         </el-form-item>
-
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -43,6 +42,54 @@
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
+        <el-form-item prop="firstName">
+          <span class="svg-container">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input
+            v-model="signupForm.firstName"
+            :placeholder="$t('common.firstName')"
+            name="firstName"
+            type="text"
+            auto-complete="on"
+          />
+        </el-form-item>
+        <el-form-item prop="lastName">
+          <span class="svg-container">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input
+            v-model="signupForm.lastName"
+            :placeholder="$t('common.lastName')"
+            name="lastName"
+            type="text"
+            auto-complete="on"
+          />
+        </el-form-item>
+        <el-form-item prop="email">
+          <span class="svg-container">
+            <svg-icon icon-class="email" />
+          </span>
+          <el-input
+            v-model="signupForm.email"
+            :placeholder="$t('common.email')"
+            name="email"
+            type="text"
+            auto-complete="on"
+          />
+        </el-form-item>
+        <el-form-item prop="phoneNumber">
+          <span class="svg-container">
+            <svg-icon icon-class="phone" />
+          </span>
+          <el-input
+            v-model="signupForm.phoneNumber"
+            :placeholder="$t('common.phoneNumber')"
+            name="phoneNumber"
+            type="text"
+            auto-complete="on"
+          />
+        </el-form-item>
         <div style="position:relative">
           <el-row>
             <el-col :span="12">
@@ -52,7 +99,7 @@
                   type="primary"
                   style="width:80%;margin-bottom:30px;"
                   @click.native.prevent="handleSignup"
-                >{{ $t('signup.signup') }}</el-button>
+                >{{ $t('common.signup') }}</el-button>
               </div>
             </el-col>
             <el-col :span="12">
@@ -75,7 +122,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
-import { fetchMenu } from '@/api/product'
+import { signup } from '@/api/user'
 
 export default {
   name: 'Signup',
@@ -96,10 +143,7 @@ export default {
       }
     }
     return {
-      signupForm: {
-        username: 'admin',
-        password: '1111111'
-      },
+      signupForm: {},
       loginRules: {
         username: [
           { required: true, trigger: 'blur', validator: validateUsername }
@@ -137,10 +181,35 @@ export default {
       }
     },
     handleSignup() {
-      // this.$router.push({ path: '/signup' })
-      fetchMenu().then(response => {
-        console.log('response: ', response)
+      signup({
+        username: this.signupForm.username,
+        password: this.signupForm.password,
+        firstName: this.signupForm.firstName,
+        lastName: this.signupForm.lastName,
+        contact: {
+          email: this.signupForm.email,
+          phoneNumber: this.signupForm.phoneNumber
+        },
+        userType: 'seller',
+        userStatus: 'normal',
+        userShopRoles: [],
+        systemRoles: []
       })
+        .then(data => {
+          console.log('signup data,', data)
+          this.$message({
+            message: 'Signup Success',
+            type: 'success'
+          })
+          this.$router.push({ path: '/' })
+        })
+        .catch(err => {
+          console.log('sign up error', err)
+          this.$message({
+            message: 'Signup Failed',
+            type: 'error'
+          })
+        })
     },
     handleCancel() {
       this.$router.push({ path: '/' })

@@ -146,14 +146,14 @@
               <el-container>
                 <el-aside width="100px">{{ $t('storedetail.contact') }}</el-aside>
                 <el-main>
-                  <el-form-item :label="$t('storedetail.phoneNumber')">
+                  <el-form-item :label="$t('common.phoneNumber')">
                     <el-input
                       v-if="mode==='create' || mode==='edit'"
                       v-model="storedetailForm.contact.phoneNumber"
                     />
                     <div v-else>{{ detail.contact.phoneNumber }}</div>
                   </el-form-item>
-                  <el-form-item :label="$t('storedetail.email')">
+                  <el-form-item :label="$t('common.email')">
                     <el-input
                       v-if="mode==='create' || mode==='edit'"
                       v-model="storedetailForm.contact.email"

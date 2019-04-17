@@ -23,6 +23,15 @@ export function getInfo(info) {
   })
 }
 
+export function signup(info) {
+  console.log('sign up info', info)
+  return request({
+    url: '/user/signup',
+    method: 'post',
+    data: info
+  })
+}
+
 export function logout() {
   return request({
     url: '/user/logout',
