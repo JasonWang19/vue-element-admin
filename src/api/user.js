@@ -47,3 +47,10 @@ export function linkStore({ username, shopType, shopId }) {
   })
 }
 
+export function checkUsername(username) {
+  console.log('check if username still available', username)
+  return request({
+    url: `/user/check/username/${username}`,
+    method: 'get'
+  })
+}

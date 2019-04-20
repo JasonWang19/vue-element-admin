@@ -9,7 +9,21 @@ export function isExternal(path) {
 export function validUsername(str) {
   // const valid_map = ['admin', 'editor']
   // return valid_map.indexOf(str.trim()) >= 0
-  return str && str.trim().length > 0
+  console.log('validating username: ', str)
+  if (!str) {
+    return {
+      isValid: false,
+      reason: 'Username cannot be empty'
+    }
+  }
+  const reg = /^([a-zA-Z0-9.-_])+$/
+  if (!reg.test(str)) {
+    return {
+      isValid: false,
+      reason: 'Username can only contain digit, letter, and characters .-_'
+    }
+  }
+  return { isValid: true }
 }
 
 export function validURL(url) {
