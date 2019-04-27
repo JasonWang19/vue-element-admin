@@ -1,6 +1,6 @@
 'use strict'
 
-import { update, getStoreInfo } from '@/api/storeDetails'
+import { create, update, getStoreInfo } from '@/api/storeDetails'
 
 const state = {
   allStores: [],
@@ -42,12 +42,12 @@ const actions = {
     commit('CHANGE_CURRENT_STORE', data)
   },
 
-  updateStore({ commit, dispatch }, { mode, storeDetail }) {
-    console.log('change Store: ', storeDetail, 'mode', mode)
+  createStore({ commit, dispatch }, { mode, storeDetail }) {
+    console.log('create Store: ', storeDetail, 'mode', mode)
 
     return new Promise((resolve, reject) => {
-      update(storeDetail).then(response => {
-        console.log('update store, get response: ', response)
+      create(storeDetail).then(response => {
+        console.log('create store, get response: ', response)
         commit('UPDATE_STORE', response)
         dispatch(
           'user/linkStore',
@@ -57,6 +57,19 @@ const actions = {
           },
           { root: true }
         )
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  updateStore({ commit, dispatch }, { mode, storeDetail }) {
+    console.log('update Store: ', storeDetail, 'mode', mode)
+
+    return new Promise((resolve, reject) => {
+      update(storeDetail).then(response => {
+        console.log('update store, get response: ', response)
+        commit('UPDATE_STORE', response)
       }).catch(error => {
         reject(error)
       })

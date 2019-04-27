@@ -54,3 +54,14 @@ export function checkUsername(username) {
     method: 'get'
   })
 }
+
+export function assignPermission({
+  username,
+  data
+}) {
+  return request({
+    url: `/${username}/permission`,
+    method: 'put',
+    data
+  })
+}

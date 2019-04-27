@@ -1,4 +1,12 @@
 export default {
+  storeType: {
+    single: 'Single',
+    chain: 'Chain'
+  },
+  country: {
+    cn: 'China',
+    sg: 'Singpore'
+  },
   common: {
     add: 'Add',
     cancel: 'Cancel',
@@ -12,7 +20,23 @@ export default {
     phoneNumber: 'Phone',
     email: 'Email',
     firstName: 'First Name',
-    lastName: 'Last Name'
+    lastName: 'Last Name',
+    license: 'License',
+    storeType: 'Restaurant Type',
+    branchName: 'Branch Name',
+    description: 'Description',
+    address: 'Address',
+    address1: 'Address',
+    address2: 'Address2',
+    district: 'District',
+    city: 'City',
+    state: 'State',
+    country: 'Country',
+    zipcode: 'Postal Code',
+    contact: 'Contact',
+    web: 'Webpage',
+    facebook: 'Facebook',
+    yelp: 'Yelp'
   },
   route: {
     dashboard: 'Dashboard',
@@ -110,42 +134,19 @@ export default {
     username: 'Account',
     password: 'Password',
     name: 'Name',
-    displayName: 'Display Name',
-    license: 'License',
-    storeType: 'Restaurant Type',
-    description: 'Description',
-    address: 'Address',
-    address1: 'Address',
-    district: 'District',
-    city: 'City',
-    state: 'State',
-    country: 'Country',
-    zipcode: 'Postal Code'
+    displayName: 'Display Name'
   },
   storedetail: {
     add: 'Add New Restaurant',
     delete: 'Remove Restaurant',
     name: 'Name',
     displayName: 'Display Name',
-    license: 'License',
-    storeType: 'Restaurant Type',
-    description: 'Description',
-    address: 'Address',
-    address1: 'Address',
-    district: 'District',
-    city: 'City',
-    state: 'State',
-    country: 'Country',
-    zipcode: 'Postal Code',
-    contact: 'Contact',
-    web: 'Webpage',
-    facebook: 'Facebook',
-    yelp: 'Yelp',
     search: 'Input store name or display name to search',
     check: 'Detail',
     title: 'Restaurant Detail',
     status: 'Current Status',
-    create: 'Create'
+    create: 'Create',
+    chooseStoreType: 'Please choose'
   },
   user: {
     addRole: 'New Role',

@@ -1,4 +1,12 @@
 export default {
+  storeType: {
+    single: '独立门店',
+    chain: '连锁店'
+  },
+  country: {
+    cn: '中国',
+    sg: '新加坡'
+  },
   common: {
     add: '添加',
     cancel: '取消',
@@ -12,7 +20,23 @@ export default {
     phoneNumber: '电话',
     email: 'email',
     firstName: '名字',
-    lastName: '姓氏'
+    lastName: '姓氏',
+    license: '许可证',
+    storeType: '餐馆种类',
+    branchName: '分店名',
+    description: '描述',
+    address: '地址',
+    address1: '详细地址',
+    address2: '详细地址2',
+    district: '小区',
+    city: '城市',
+    state: '省',
+    country: '国家',
+    zipcode: '邮政编码',
+    contact: '联系方式',
+    web: '网页',
+    facebook: 'facebook',
+    yelp: 'yelp'
   },
 
   route: {
@@ -109,44 +133,19 @@ export default {
     title: '用户注册',
     cancel: '取消',
     username: '账号',
-    password: '密码',
-    name: '店名',
-    displayName: '显示店名',
-    license: '许可证',
-    storeType: '餐馆种类',
-    description: '描述',
-    address: '地址',
-    address1: '详细地址',
-    district: '小区',
-    city: '城市',
-    state: '省',
-    country: '国家',
-    zipcode: '邮政编码'
+    password: '密码'
   },
   storedetail: {
     add: '添加新店铺',
     delete: '删除店铺',
     name: '店名',
     displayName: '显示店名',
-    license: '许可证',
-    storeType: '餐馆种类',
-    description: '描述',
-    address: '地址',
-    address1: '详细地址',
-    district: '小区',
-    city: '城市',
-    state: '省',
-    country: '国家',
-    zipcode: '邮政编码',
-    contact: '联系方式',
-    web: '网页',
-    facebook: 'facebook',
-    yelp: 'yelp',
     search: '输入店名',
     check: '查看',
     title: '店铺详情',
     status: '当前状态',
-    create: '创建'
+    create: '创建',
+    chooseStoreType: '请选择'
   },
   user: {
     addRole: '新增角色',
