@@ -1,10 +1,23 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger
+      :is-active="sidebar.opened"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar"
+    />
 
     <breadcrumb class="breadcrumb-container" />
-
     <div class="right-menu">
+      <el-dropdown split-button type="primary" @command="changeCurrentStore">
+        {{ currentStore !== null ? currentStore.name : $t('common.noStore') }}
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item
+            v-for="detail in details"
+            :key="detail.id"
+            :command="detail.id"
+          >{{ detail.name }}</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
       <template v-if="device!=='mobile'">
         <search class="right-menu-item" />
 
@@ -17,7 +30,6 @@
         </el-tooltip>
 
         <lang-select class="right-menu-item hover-effect" />
-
       </template>
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
@@ -27,14 +39,10 @@
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/">
-            <el-dropdown-item>
-              {{ $t('navbar.dashboard') }}
-            </el-dropdown-item>
+            <el-dropdown-item>{{ $t('navbar.dashboard') }}</el-dropdown-item>
           </router-link>
           <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
-            <el-dropdown-item>
-              {{ $t('navbar.github') }}
-            </el-dropdown-item>
+            <el-dropdown-item>{{ $t('navbar.github') }}</el-dropdown-item>
           </a>
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">{{ $t('navbar.logOut') }}</span>
@@ -66,14 +74,17 @@ export default {
     Search
   },
   computed: {
-    ...mapGetters([
-      'sidebar',
-      'name',
-      'avatar',
-      'device'
-    ])
+    ...mapGetters(['sidebar', 'name', 'avatar', 'device']),
+    ...mapGetters({
+      currentStore: 'storeDetails/currentStore',
+      details: 'storeDetails/details'
+    })
   },
   methods: {
+    changeCurrentStore(command) {
+      console.log('change current store: ', command)
+      this.$store.dispatch('storeDetails/changeCurrentStore', command)
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
@@ -91,18 +102,19 @@ export default {
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
     line-height: 46px;
     height: 100%;
     float: left;
     cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+    transition: background 0.3s;
+    background-color: #304156;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      background: #1f2d3d;
     }
   }
 
@@ -134,10 +146,10 @@ export default {
 
       &.hover-effect {
         cursor: pointer;
-        transition: background .3s;
+        transition: background 0.3s;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: rgba(0, 0, 0, 0.025);
         }
       }
     }

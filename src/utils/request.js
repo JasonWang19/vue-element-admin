@@ -1,3 +1,5 @@
+'use strict'
+
 import axios from 'axios'
 // import { MessageBox, Message } from 'element-ui'
 import { Message } from 'element-ui'
@@ -43,6 +45,8 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
+
+    console.log('request intercepter: ', res, response)
     // if (res.code !== 200) {
     //   Message({
     //     message: res.message,
@@ -67,10 +71,15 @@ service.interceptors.response.use(
     // } else {
     //   return res
     // }
+
     return res
   },
   error => {
     console.log('err' + error) // for debug
+    // TODO check username only 409 will return data
+    if (error.response.status === 409) {
+      return error.response.data
+    }
     Message({
       message: error.message,
       type: 'error',

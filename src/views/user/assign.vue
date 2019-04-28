@@ -65,15 +65,22 @@
         <el-form-item :label="$t('user.username')" prop="username">
           <el-input v-model="temp.username" />
         </el-form-item>
-        <el-form-item :label="$t('user.role')" prop="role">
-          <el-input v-model="temp.role" />
+        <el-form-item :label="$t('user.role')">
+          <el-select v-model="temp.shopRole">
+            <el-option
+              v-for="role in roles"
+              :key="role.text"
+              :label="role.text"
+              :value="role.value"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogUserForm = false">{{ $t('common.cancel') }}</el-button>
         <el-button
           type="primary"
-          @click="dialogStatus==='addUser'?assignUserRole():updateUserRole()"
+          @click="dialogStatus==='assign'?assignUserRole():updateUserRole()"
         >{{ $t('common.confirm') }}</el-button>
       </div>
     </el-dialog>
@@ -84,7 +91,14 @@
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import ShowRoles from './components/ShowRoles'
+import { assignPermission } from '@/api/user'
+import { SHOP_ROLES, SHOP_TYPE } from '@/utils/constants'
 
+const TEMP = {
+  timestamp: new Date(),
+  shopRole: '',
+  username: ''
+}
 export default {
   name: 'AssignPermission',
   components: { ShowRoles },
@@ -94,15 +108,8 @@ export default {
       key: 1, // 为了能每次切换权限的时候重新初始化指令
       search: '',
       dialogUserForm: false,
-      temp: {
-        id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        type: '',
-        status: 'published'
-      },
+      roles: SHOP_ROLES,
+      temp: Object.assign({}, TEMP),
       userData: [
         {
           date: '2016-05-03',
@@ -150,15 +157,7 @@ export default {
   methods: {
     checkPermission,
     resetTemp() {
-      this.temp = {
-        id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        status: 'published',
-        type: ''
-      }
+      this.temp = Object.assign({}, TEMP)
     },
     handleAddUser() {
       console.log('handle add user')
@@ -188,7 +187,22 @@ export default {
       })
     },
     assignUserRole() {
-      console.log('assign user role')
+      console.log('assign user role', this.temp)
+      console.log('assign user role, current store', this.$store.state.storeDetails.currentStore.id)
+      return new Promise((resolve, reject) => {
+        return assignPermission({
+          username: this.temp.username,
+          data: {
+            shopType: SHOP_TYPE.RESTAURANT,
+            shopId: this.$store.state.storeDetails.currentStore.id
+          }
+        })
+          .then(response => {
+            console.log('assign user role, ', response)
+            resolve()
+          })
+          .catch(err => reject(err))
+      })
     },
     updateUserRole() {
       console.log('update user role')

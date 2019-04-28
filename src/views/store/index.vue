@@ -1,7 +1,12 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="search" :placeholder="$t('storedetail.search')" style="width: 200px;" />
+      <el-input
+        v-model="search"
+        :placeholder="$t('storedetail.search')"
+        style="width: 200px;"
+        clearable
+      />
 
       <el-button
         class="filter-item"
@@ -27,10 +32,10 @@
       <el-table-column type="selection" width="55" />
       <el-table-column prop="name" :label="$t('storedetail.name')" width="180" />
       <el-table-column prop="displayName" :label="$t('storedetail.displayName')" width="180" />
-      <el-table-column prop="license" :label="$t('storedetail.license')" width="180" />
+      <el-table-column prop="license" :label="$t('common.license')" width="180" />
       <el-table-column prop="status" :label="$t('storedetail.status')" width="180">
         <template slot-scope="scope">
-          <el-tag type="primary" disable-transitions>{{ scope.row.status.toUpperCase() }}</el-tag>
+          <el-tag type="primary" disable-transitions>{{ scope.row.restaurantStatus.toUpperCase() }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -41,7 +46,7 @@
       >
         <template slot-scope="scope">
           <el-button
-            v-if="scope.row.status !== 'draft'"
+            v-if="scope.row.resaturantStatus !== 'draft'"
             type="primary"
             size="mini"
             @click="handleCheckStore(scope.row)"
@@ -53,7 +58,7 @@
             @click="handleCreateStore(scope.row)"
           >{{ $t('storedetail.create') }}</el-button>
           <el-button
-            v-if="scope.row.status!='deleted'"
+            v-if="scope.row.resaturantStatus!='deleted'"
             size="mini"
             type="danger"
             @click="handleDeleteStores(scope.row,'deleted')"
@@ -70,31 +75,53 @@
           class="storeDetail-form"
           auto-complete="on"
           label-position="left"
+          :rules="rules"
         >
           <div>
-            <el-form-item :label="$t('storedetail.name')">
+            <!-- name  -->
+            <el-form-item :label="$t('storedetail.name')" prop="name">
               <el-input v-if="mode==='create' || mode==='edit'" v-model="storedetailForm.name" />
               <div v-else>{{ detail.name }}</div>
             </el-form-item>
-            <el-form-item :label="$t('storedetail.displayName')">
+            <!-- display name -->
+            <el-form-item :label="$t('storedetail.displayName')" prop="displayname">
               <el-input
                 v-if="mode==='create' || mode==='edit'"
                 v-model="storedetailForm.displayName"
               />
               <div v-else>{{ detail.displayName }}</div>
             </el-form-item>
-            <el-form-item :label="$t('storedetail.storeType')">
+            <!-- restaurant type -->
+            <el-form-item :label="$t('common.storeType')" prop="restaurantType">
               <el-select
                 v-if="mode==='create' || mode==='edit'"
-                v-model="storedetailForm.storeType"
+                v-model="storedetailForm.restaurantType"
+                :placeholder="$t('storedetail.chooseStoreType')"
               >
-                <el-option label="Zone one" value="shanghai" />
-                <el-option label="Zone two" value="beijing" />
+                <el-option
+                  v-for="st in storeType"
+                  :key="st.key"
+                  :label="$t(getStoreType(st.key))"
+                  :value="st.value"
+                />
               </el-select>
-              <div v-else>{{ detail.storeType }}</div>
+              <div v-else>{{ $t(getStoreType(detail.restaurantType)) }}</div>
             </el-form-item>
-
-            <el-form-item :label="$t('storedetail.description')">
+            <!-- branch name -->
+            <el-form-item
+              v-if="(mode==='create' || mode==='edit') && storedetailForm.restaurantType===storeType.chain.value"
+              :label="$t('common.branchName')"
+            >
+              <el-input v-model="storedetailForm.branchName" />
+            </el-form-item>
+            <el-form-item
+              v-if="(mode!=='create' && mode!=='edit') && detail.restaurantType===storeType.chain.value"
+              :label="$t('common.branchName')"
+            >
+              <div>{{ detail.branchName }}</div>
+            </el-form-item>
+            <!-- description  -->
+            <el-form-item :label="$t('common.description')">
               <el-input
                 v-if="mode==='create' || mode==='edit'"
                 v-model="storedetailForm.description"
@@ -102,57 +129,89 @@
               />
               <div v-else>{{ detail.description }}</div>
             </el-form-item>
+            <!-- address -->
             <el-container>
               <el-container>
-                <el-aside width="100px">{{ $t('storedetail.address') }}</el-aside>
+                <el-aside width="100px">{{ $t('common.address') }}</el-aside>
                 <el-main>
-                  <el-form-item :label="$t('storedetail.address1')">
+                  <!-- address 1 -->
+                  <el-form-item :label="$t('common.address1')" prop="address.address1">
                     <el-input
                       v-if="mode==='create' || mode==='edit'"
                       v-model="storedetailForm.address.address1"
                     />
                     <div v-else>{{ detail.address.address1 }}</div>
                   </el-form-item>
-                  <el-form-item :label="$t('storedetail.district')">
+                  <el-form-item :label="$t('common.address2')" prop="address2">
+                    <el-input
+                      v-if="mode==='create' || mode==='edit'"
+                      v-model="storedetailForm.address.address2"
+                    />
+                    <div v-else>{{ detail.address.address2 }}</div>
+                  </el-form-item>
+                  <!-- district -->
+                  <el-form-item :label="$t('common.district')">
                     <el-input
                       v-if="mode==='create' || mode==='edit'"
                       v-model="storedetailForm.address.district"
                     />
                     <div v-else>{{ detail.address.district }}</div>
                   </el-form-item>
-                  <el-form-item :label="$t('storedetail.city')">
+                  <!-- city -->
+                  <el-form-item :label="$t('common.city')" prop="address.city">
                     <el-input
                       v-if="mode==='create' || mode==='edit'"
                       v-model="storedetailForm.address.city"
                     />
                     <div v-else>{{ detail.address.city }}</div>
                   </el-form-item>
-                  <el-form-item :label="$t('storedetail.state')">
+                  <!-- state -->
+                  <el-form-item :label="$t('common.state')">
                     <el-input
                       v-if="mode==='create' || mode==='edit'"
                       v-model="storedetailForm.address.state"
                     />
                     <div v-else>{{ detail.address.state }}</div>
                   </el-form-item>
-                  <el-form-item :label="$t('storedetail.country')">
-                    <el-input
+                  <!-- country -->
+                  <el-form-item :label="$t('common.country')" prop="address.country">
+                    <el-select
                       v-if="mode==='create' || mode==='edit'"
                       v-model="storedetailForm.address.country"
-                    />
-                    <div v-else>{{ detail.address.country }}</div>
+                      filterable
+                      placeholder="Select"
+                    >
+                      <el-option
+                        v-for="item in supportCountries"
+                        :key="item.key"
+                        :label="$t(getCountry(item.key))"
+                        :value="item.value"
+                      />
+                    </el-select>
+                    <div
+                      v-else
+                    >{{ detail.address.country? $t(getCountry(detail.address.country)) : '' }}</div>
                   </el-form-item>
                 </el-main>
               </el-container>
+
+              <!-- contact -->
               <el-container>
-                <el-aside width="100px">{{ $t('storedetail.contact') }}</el-aside>
+                <el-aside width="100px">{{ $t('common.contact') }}</el-aside>
                 <el-main>
-                  <el-form-item :label="$t('common.phoneNumber')">
+                  <!-- phone number -->
+                  <el-form-item :label="$t('common.phoneNumber')" prop="contact.phoneNumber">
                     <el-input
                       v-if="mode==='create' || mode==='edit'"
                       v-model="storedetailForm.contact.phoneNumber"
-                    />
+                    >
+                      <template
+                        slot="prepend"
+                      >{{ storedetailForm.address.country ? "+" + supportCountries[storedetailForm.address.country].phoneCode : "" }}</template>
+                    </el-input>
                     <div v-else>{{ detail.contact.phoneNumber }}</div>
                   </el-form-item>
+                  <!-- email -->
                   <el-form-item :label="$t('common.email')">
                     <el-input
                       v-if="mode==='create' || mode==='edit'"
@@ -160,21 +219,24 @@
                     />
                     <div v-else>{{ detail.contact.email }}</div>
                   </el-form-item>
-                  <el-form-item :label="$t('storedetail.web')">
+                  <!-- web -->
+                  <el-form-item :label="$t('common.web')">
                     <el-input
                       v-if="mode==='create' || mode==='edit'"
                       v-model="storedetailForm.contact.web"
                     />
                     <div v-else>{{ detail.contact.web }}</div>
                   </el-form-item>
-                  <el-form-item :label="$t('storedetail.facebook')">
+                  <!-- facebook -->
+                  <el-form-item :label="$t('common.facebook')">
                     <el-input
                       v-if="mode==='create' || mode==='edit'"
                       v-model="storedetailForm.contact.facebook"
                     />
                     <div v-else>{{ detail.contact.facebook }}</div>
                   </el-form-item>
-                  <el-form-item :label="$t('storedetail.yelp')">
+                  <!-- yelp -->
+                  <el-form-item :label="$t('common.yelp')">
                     <el-input
                       v-if="mode==='create' || mode==='edit'"
                       v-model="storedetailForm.contact.yelp"
@@ -191,7 +253,7 @@
                   :loading="loading"
                   type="primary"
                   style="width:80%;margin-bottom:30px;"
-                  @click.native.prevent="handleConfirm"
+                  @click.native.prevent="handleConfirmUpdate('storedetailForm')"
                 >{{ $t('common.confirm') }}</el-button>
 
                 <el-button
@@ -207,13 +269,14 @@
                   :loading="loading"
                   type="primary"
                   style="width:80%;margin-bottom:30px;"
-                  @click.native.prevent="handleDraft"
+                  @click.native.prevent="handleDraft('storedetailForm')"
                 >{{ $t('common.saveDraft') }}</el-button>
                 <el-button
                   :loading="loading"
                   type="primary"
                   style="width:80%;margin-bottom:30px;"
-                  @click.native.prevent="handleAdd"
+                  :disabled="false"
+                  @click.native.prevent="handleAdd('storedetailForm')"
                 >{{ $t('common.confirm') }}</el-button>
                 <el-button
                   :loading="loading"
@@ -253,12 +316,46 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
+import { RESTAURANT_TYPE, SUPPORT_COUNTRIES } from '@/utils/constants'
 export default {
   name: 'StoreManagement',
   components: {},
   directives: {},
   data() {
+    const addressValidate = (rule, value, callback) => {
+      console.log('save as draft: ', this.saveAsDraft)
+      if (!this.saveAsDraft) {
+        if (!value) {
+          return callback(new Error('address field is mandatory!'))
+        } else {
+          callback()
+        }
+        // setTimeout(() => {
+        //   if (!Number.isInteger(value)) {
+        //     callback(new Error('Please input digits'));
+        //   } else {
+        //     if (value < 18) {
+        //       callback(new Error('Age must be greater than 18'));
+        //     } else {
+        //       callback();
+        //     }
+        //   }
+        // }, 1000);
+      } else {
+        callback()
+      }
+    }
+    const contactValidate = (rule, value, callback) => {
+      if (!this.saveAsDraft) {
+        if (!value) {
+          return callback(new Error('contact field is mandatory!'))
+        } else {
+          callback()
+        }
+      } else {
+        callback()
+      }
+    }
     return {
       key: 1, // 为了能每次切换权限的时候重新初始化指令
       search: '',
@@ -268,20 +365,27 @@ export default {
       mode: '',
       storedetailForm: {},
       detail: { address: {}, contact: {}},
+      storeType: RESTAURANT_TYPE,
+      supportCountries: SUPPORT_COUNTRIES,
+      saveAsDraft: false,
       rules: {
-        type: [
-          { required: true, message: 'type is required', trigger: 'change' }
+        name: [
+          { required: true, message: 'name is required', trigger: 'blur' }
         ],
-        timestamp: [
-          {
-            type: 'date',
-            required: true,
-            message: 'timestamp is required',
-            trigger: 'change'
-          }
+        restaurantType: [
+          { required: true, message: 'restaurant type is required' }
         ],
-        title: [
-          { required: true, message: 'title is required', trigger: 'blur' }
+        'address.address1': [
+          { required: true, validator: addressValidate, trigger: 'blur' }
+        ],
+        'address.city': [
+          { required: true, validator: addressValidate, trigger: 'blur' }
+        ],
+        'address.country': [
+          { required: true, validator: addressValidate, trigger: 'blur' }
+        ],
+        'contact.phoneNumber': [
+          { required: true, validator: contactValidate, trigger: 'blur' }
         ]
       }
     }
@@ -292,12 +396,13 @@ export default {
     //   console.log(this.storeid, val)
     //   return val
     // },
+
     newStore() {
       return {
-        name: 'New Store',
+        name: '',
         license: '',
         displayName: '',
-        storeType: '',
+        restaurantType: '',
         description: '',
         address: {
           address1: '',
@@ -324,6 +429,13 @@ export default {
     })
   },
   methods: {
+    getCountry(country) {
+      console.log('get country: ', country)
+      return `country.${country}`
+    },
+    getStoreType(type) {
+      return `storeType.${type}`
+    },
     clear() {
       this.detail = { address: {}, contact: {}}
       this.storedetailForm = { address: {}, contact: {}}
@@ -366,17 +478,49 @@ export default {
       this.clear()
       this.dialogStoreFormVisible = false
     },
-    handleAdd() {
-      this.storedetailForm['status'] = 'pending'
-      this.updateStore()
+    handleAdd(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.storedetailForm['restaurantStatus'] = 'pending'
+          this.createStore()
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
-    handleConfirm() {
-      this.updateStore()
+    handleConfirmUpdate(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.updateStore()
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
 
-    handleDraft() {
-      this.storedetailForm['status'] = 'draft'
-      this.updateStore()
+    handleDraft(formName) {
+      this.saveAsDraft = true
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.storedetailForm['restaurantStatus'] = 'draft'
+          this.createStore()
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+      this.saveAsDraft = false
+    },
+    createStore() {
+      this.$store.dispatch('storeDetails/createStore', {
+        storeDetail: this.storedetailForm,
+        mode: this.mode
+      })
+      this.dialogStoreFormVisible = false
+      this.mode = ''
+      this.clear()
     },
     updateStore() {
       this.$store.dispatch('storeDetails/updateStore', {
