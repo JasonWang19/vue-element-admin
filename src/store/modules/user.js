@@ -11,7 +11,8 @@ const state = {
   // avatar: '',
   // introduction: '',
   roles: [],
-  details: null
+  details: null,
+  currentRoles: ['default']
 }
 
 const mutations = {
@@ -76,8 +77,8 @@ const actions = {
             reject('Verification failed, please Login again.')
           }
 
-          // const { userShopRoles, lastName, firstName } = data
-          const { lastName, firstName } = data
+          const { userShopRoles, lastName, firstName } = data
+          // const { lastName, firstName } = data
 
           // roles must be a non-empty array
           // if (!roles || roles.length <= 0) {
@@ -86,7 +87,7 @@ const actions = {
 
           // TODO: temporarily hard code
           // commit('SET_ROLES', userShopRoles)
-          commit('SET_ROLES', ['admin'])
+          commit('SET_ROLES', userShopRoles)
           commit('SET_NAME', `${firstName} ${lastName}`)
           commit('SET_USER_DETAILS', data)
           // commit('SET_AVATAR', avatar)

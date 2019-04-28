@@ -9,7 +9,7 @@ function hasPermission(roles, route) {
   if (route.meta && route.meta.roles) {
     return roles.some(role => route.meta.roles.includes(role))
   } else {
-    return true
+    return false
   }
 }
 
@@ -47,16 +47,18 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({ commit, rootGetters }, roles) {
     return new Promise(resolve => {
-      // let accessedRoutes
-      // if (roles.includes('admin')) {
-      //   accessedRoutes = asyncRoutes
-      // } else {
-      //   accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      // }
+      console.log('generate routes: ', rootGetters.currentRole)
+      let accessedRoutes
+      if (roles.includes('system_admin')) {
+        accessedRoutes = asyncRoutes
+      } else {
+        accessedRoutes = filterAsyncRoutes(asyncRoutes, rootGetters.currentRole ? rootGetters.currentRole.shopRoles : ['default'])
+      }
       // TODO: temporarily manually allow all
-      const accessedRoutes = asyncRoutes
+
+      // const accessedRoutes = asyncRoutes
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })

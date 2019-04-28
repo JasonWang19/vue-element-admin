@@ -101,11 +101,11 @@
                 <el-option
                   v-for="st in storeType"
                   :key="st.key"
-                  :label="$t(getStoreType(st.key))"
+                  :label="$t('storeType.'+st.key)"
                   :value="st.value"
                 />
               </el-select>
-              <div v-else>{{ $t(getStoreType(detail.restaurantType)) }}</div>
+              <div v-else>{{ $t('storeType.' + detail.restaurantType) }}</div>
             </el-form-item>
             <!-- branch name -->
             <el-form-item
@@ -184,13 +184,13 @@
                       <el-option
                         v-for="item in supportCountries"
                         :key="item.key"
-                        :label="$t(getCountry(item.key))"
+                        :label="$t('country.' + item.key)"
                         :value="item.value"
                       />
                     </el-select>
                     <div
                       v-else
-                    >{{ detail.address.country? $t(getCountry(detail.address.country)) : '' }}</div>
+                    >{{ detail.address.country? $t('country.' + detail.address.country) : '' }}</div>
                   </el-form-item>
                 </el-main>
               </el-container>
@@ -429,13 +429,6 @@ export default {
     })
   },
   methods: {
-    getCountry(country) {
-      console.log('get country: ', country)
-      return `country.${country}`
-    },
-    getStoreType(type) {
-      return `storeType.${type}`
-    },
     clear() {
       this.detail = { address: {}, contact: {}}
       this.storedetailForm = { address: {}, contact: {}}

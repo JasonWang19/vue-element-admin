@@ -18,6 +18,12 @@ const getters = {
       return state.product.menus.filter(m => m.restaurantId === state.storeDetails.currentStore.id)[0]
     }
     return undefined
+  },
+  currentRole: state => {
+    if (state.storeDetails.currentStore !== null && state.user.roles.length > 0) {
+      return state.user.roles.filter(r => r.shopId === state.storeDetails.currentStore.id)[0]
+    }
+    return undefined
   }
 }
 export default getters

@@ -8,14 +8,6 @@ export function fetchMenu(menuId) {
   })
 }
 
-export function fetchPv(pv) {
-  return request({
-    url: '/article/pv',
-    method: 'get',
-    params: { pv }
-  })
-}
-
 export function updateMenu(data) {
   return request({
     url: '/restaurant/menu',

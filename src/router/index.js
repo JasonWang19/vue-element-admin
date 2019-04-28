@@ -101,6 +101,19 @@ export const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', noCache: true, affix: true }
       }
     ]
+  },
+  // store management
+  {
+    path: '/store',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/store/index'),
+        name: 'Store',
+        meta: { title: 'store', icon: 'store', noCache: true }
+      }
+    ]
   }
   // {
   //   path: '/documentation',
@@ -134,19 +147,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
 */
 export const asyncRoutes = [
-  // store management
-  {
-    path: '/store',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/store/index'),
-        name: 'Store',
-        meta: { title: 'store', icon: 'store', noCache: true }
-      }
-    ]
-  },
+
   // product management
   productRouter,
   // user management
@@ -158,7 +159,7 @@ export const asyncRoutes = [
     meta: {
       title: 'user',
       icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      roles: ['shop_owner', 'admin', 'default'] // you can set roles in root nav
     },
     children: [
       {
@@ -167,7 +168,7 @@ export const asyncRoutes = [
         name: 'PagePermission',
         meta: {
           title: 'pagePermission',
-          roles: ['admin'] // or you can only set roles in sub nav
+          roles: ['shop_owner', 'admin', 'default'] // or you can only set roles in sub nav
         }
       },
       {
@@ -175,8 +176,9 @@ export const asyncRoutes = [
         component: () => import('@/views/user/assign'),
         name: 'AssignPermission',
         meta: {
-          title: 'assignPermission'
+          title: 'assignPermission',
           // if do not set roles, means: this page does not require permission
+          roles: ['shop_owner', 'admin', 'default']
         }
       },
       {
@@ -185,7 +187,7 @@ export const asyncRoutes = [
         name: 'RolePermission',
         meta: {
           title: 'rolePermission',
-          roles: ['admin']
+          roles: ['shop_owner', 'admin', 'default']
         }
       }
     ]
