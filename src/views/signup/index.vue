@@ -123,16 +123,24 @@
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import { signup } from '@/api/user'
+import { checkUsername } from '@/api/user'
 
 export default {
   name: 'Signup',
   components: { LangSelect },
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+      const { isValid, reason } = validUsername(value)
+      if (!isValid) {
+        callback(new Error(reason))
       } else {
-        callback()
+        checkUsername(value).then(data => {
+          if (data) {
+            callback(new Error(`Username ${value} is not available, please choose another one!`))
+          } else {
+            callback()
+          }
+        })
       }
     }
     const validatePassword = (rule, value, callback) => {
