@@ -34,15 +34,23 @@ export function filterAsyncRoutes(routes, roles) {
   return res
 }
 
-const state = {
+const initialState = {
   routes: [],
   addRoutes: []
 }
+
+const state = Object.assign({}, initialState)
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
+  },
+  RESET: (state) => {
+    const keys = Object.keys(state)
+    for (const key of keys) {
+      state[key] = initialState[key]
+    }
   }
 }
 

@@ -10,7 +10,7 @@ const state = {
   name: '',
   // avatar: '',
   // introduction: '',
-  roles: [],
+  roles: null,
   details: null,
   currentRoles: ['default']
 }
