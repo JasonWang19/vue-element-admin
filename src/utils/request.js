@@ -80,6 +80,9 @@ service.interceptors.response.use(
     if (error.response.status === 409) {
       return error.response.data
     }
+    if (error.response.status >= 400 && error.response.status < 500) {
+      return error.response.data
+    }
     Message({
       message: error.message,
       type: 'error',

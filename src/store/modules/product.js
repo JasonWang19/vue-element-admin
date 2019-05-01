@@ -23,8 +23,10 @@ const mutations = {
     state.menus = menus
   },
   RESET: (state) => {
-    for (const key in Object.keys(state)) {
-      state[key] = initialState.key
+    console.log('resetting state for product')
+
+    for (const key of Object.keys(state)) {
+      state[key] = initialState[key]
     }
   }
 }

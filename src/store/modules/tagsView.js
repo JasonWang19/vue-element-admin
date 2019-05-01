@@ -1,8 +1,9 @@
 
-const state = {
+const initialState = {
   visitedViews: [],
   cachedViews: []
 }
+const state = Object.assign({}, initialState)
 
 const mutations = {
   ADD_VISITED_VIEW: (state, view) => {
@@ -68,6 +69,11 @@ const mutations = {
         v = Object.assign(v, view)
         break
       }
+    }
+  },
+  RESET: (state) => {
+    for (const key of Object.keys(state)) {
+      state[key] = initialState[key]
     }
   }
 }

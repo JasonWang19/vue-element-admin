@@ -47,6 +47,7 @@ const mutations = {
     state.routes = constantRoutes.concat(routes)
   },
   RESET: (state) => {
+    console.log('resetting state for permission')
     const keys = Object.keys(state)
     for (const key of keys) {
       state[key] = initialState[key]

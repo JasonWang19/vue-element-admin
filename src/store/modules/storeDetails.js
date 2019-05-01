@@ -2,10 +2,12 @@
 
 import { create, update, getStoreInfo } from '@/api/storeDetails'
 
-const state = {
+const initialState = {
   allStores: [],
   currentStore: null
 }
+
+const state = Object.assign({}, initialState)
 
 const getters = {
   details: state => {
@@ -33,6 +35,11 @@ const mutations = {
     console.log('set all stores', stores)
     state.allStores = stores
     if (state.currentStore === null && stores !== null && stores.length > 0) state.currentStore = state.allStores[0]
+  },
+  RESET: (state) => {
+    for (const key of Object.keys(initialState)) {
+      state[key] = initialState[key]
+    }
   }
 }
 

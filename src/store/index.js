@@ -9,6 +9,7 @@ import user from './modules/user'
 import storeDetails from './modules/storeDetails'
 import product from './modules/product'
 import getters from './getters'
+import actions from './actions'
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ const store = new Vuex.Store({
     storeDetails,
     product
   },
-  getters
+  getters,
+  actions
 })
 
 export default store
