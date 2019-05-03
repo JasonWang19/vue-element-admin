@@ -27,9 +27,11 @@ export function getAuth() {
 }
 
 export function setAuth(token, username) {
-  return Cookies.set(TokenKey, token) && Cookies.set(UsernameKey, username)
+  Cookies.set(TokenKey, token)
+  Cookies.set(UsernameKey, username)
 }
 
 export function removeAuth() {
-  return Cookies.remove(TokenKey) && Cookies.remove(UsernameKey)
+  Cookies.remove(TokenKey)
+  Cookies.remove(UsernameKey)
 }

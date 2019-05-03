@@ -6,6 +6,7 @@ import { login, getInfo, linkStore } from '@/api/user'
 import { getToken, getUsername, setAuth, removeAuth, setToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
+// if the new element is added to user then has to be added to reset
 const state = {
   token: getToken(),
   name: '',
@@ -43,6 +44,15 @@ const mutations = {
   UPDATE_ROLE: (state, role) => {
     state.details.userShopRoles = state.details.userShopRoles.filter(r => r.shopId !== role.shopId)
     state.details.userShopRoles.push(role)
+  },
+  RESET: (state) => {
+    console.log('resetting user state')
+    state.token = ''
+    state.name = ''
+    state.username = ''
+    state.roles = null
+    state.details = null
+    state.currentRoles = ['default']
   }
 }
 
