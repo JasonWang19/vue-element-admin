@@ -1,5 +1,5 @@
 'use strict'
-import { removeToken } from '@/utils/auth'
+import { removeAuth } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const actions = {
@@ -12,7 +12,7 @@ const actions = {
       commit('storeDetails/RESET')
       commit('user/SET_TOKEN', '')
       commit('user/SET_ROLES', [])
-      removeToken()
+      removeAuth()
       resetRouter()
       resolve()
     })

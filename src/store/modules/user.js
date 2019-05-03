@@ -2,7 +2,8 @@
 
 // import { login, logout, getInfo } from '@/api/user'
 import { login, getInfo, linkStore } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+// import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, getUsername, setAuth, removeAuth, setToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
@@ -10,6 +11,7 @@ const state = {
   name: '',
   // avatar: '',
   // introduction: '',
+  username: getUsername(),
   roles: null,
   details: null,
   currentRoles: ['default']
@@ -47,13 +49,16 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    let { username } = userInfo
+    const { password } = userInfo
+    username = username.trim()
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ username, password }).then(response => {
         console.log('get response: ', response)
         commit('SET_TOKEN', response.access_token)
-        setToken(response.access_token)
+        // setToken(response.access_token)
         commit('SET_USER_NAME', username)
+        setAuth(response.access_token, username)
         resolve()
       }).catch(error => {
         reject(error)
@@ -118,7 +123,7 @@ const actions = {
       // })
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
-      removeToken()
+      removeAuth()
       resetRouter()
       resolve()
     })
@@ -130,7 +135,8 @@ const actions = {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
-      removeToken()
+      // removeToken()
+      removeAuth()
       resolve()
     })
   },
