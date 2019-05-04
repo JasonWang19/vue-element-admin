@@ -27,7 +27,14 @@
       style="width: 100%"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column prop="timestamp" :label="$t('user.ts')" sortable width="180" />
+      <!-- <el-table-column prop="timestamp" :label="$t('user.ts')" sortable width="180" /> -->
+
+      <el-table-column :label="$t('user.ts')" width="180px">
+        <template slot-scope="scope">
+          <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column prop="username" :label="$t('user.username')" width="180" />
       <el-table-column prop="fullName" :label="$t('user.name')" width="180" />
       <el-table-column prop="shopRoles" sortable :label="$t('user.role')" />
