@@ -7,8 +7,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       commit('permission/RESET')
       commit('product/RESET')
-      commit('tageView/RESET')
-      commit('tageView/RESET')
+      commit('tagView/RESET')
       commit('storeDetails/RESET')
       removeAuth()
       commit('user/RESET')

@@ -1,10 +1,12 @@
 'use strict'
 
-import { create, update, getStoreInfo } from '@/api/storeDetails'
+import { create, update, getStoreInfo, getStoreUsers } from '@/api/storeDetails'
+import { SHOP_TYPE, SHOP_ROLES } from '@/utils/constants'
 
 const initialState = {
   allStores: [],
-  currentStore: null
+  currentStore: null,
+  storeUsers: {}
 }
 
 const state = Object.assign({}, initialState)
@@ -15,6 +17,13 @@ const getters = {
   },
   currentStore: state => {
     return state.currentStore
+  },
+  currentStoreUsers: state => {
+    if (state.currentStore !== null) {
+      const id = state.currentStore.id
+      if (state.storeUsers.hasOwnProperty(id)) { return state.storeUsers[id] }
+    }
+    return []
   }
 }
 const mutations = {
@@ -36,6 +45,11 @@ const mutations = {
     state.allStores = stores
     if (state.currentStore === null && stores !== null && stores.length > 0) state.currentStore = state.allStores[0]
   },
+  SET_STORE_USERS: (state, { storeId, shopUsers }) => {
+    console.log('set store users', storeId, shopUsers, state.allStores)
+    state.storeUsers[storeId] = shopUsers
+    console.log('after set store users', state.storeUsers)
+  },
   RESET: (state) => {
     for (const key of Object.keys(initialState)) {
       state[key] = initialState[key]
@@ -44,7 +58,7 @@ const mutations = {
 }
 
 const actions = {
-  changeCurrentStore({ commit }, data) {
+  changeCurrentStore({ commit, state, dispatch }, data) {
     console.log('changeCurrentStore')
     commit('CHANGE_CURRENT_STORE', data)
   },
@@ -64,6 +78,7 @@ const actions = {
           },
           { root: true }
         )
+        resolve()
       }).catch(error => {
         reject(error)
       })
@@ -77,19 +92,40 @@ const actions = {
       update(storeDetail).then(response => {
         console.log('update store, get response: ', response)
         commit('UPDATE_STORE', response)
+        resolve()
       }).catch(error => {
         reject(error)
       })
     })
   },
 
-  getStoreInfo({ commit }, userShopRoles) {
+  getStoreInfo({ commit, dispatch }, userShopRoles) {
     console.log('get all store info bases on ', userShopRoles)
     const allStorePromise = userShopRoles.map(r => getStoreInfo(r.shopId))
     // let allStorePromise = []
     Promise.all(allStorePromise).then(stores => {
       commit('SET_ALL_STORES', stores)
+      // stores.forEach(s => {
+      //   dispatch('getStoreUsers', s.id)
+      // })
     })
+  },
+
+  getStoreUsers({ commit }, userShopRoles) {
+    console.log('get all store users bases on ', userShopRoles)
+    userShopRoles
+      .filter(r => r.shopRoles.includes(SHOP_ROLES['admin'].value) || r.shopRoles.includes(SHOP_ROLES['owner'].value))
+      // .map(r => {
+      //   console.log('store with admin', r, r.shopId, r.shopRoles.includes(SHOP_ROLES['admin'].value) || r.shopRoles.includes(SHOP_ROLES['owner'].value));
+      //   return
+      // })
+      .map(r => new Promise((resolve, reject) => {
+        getStoreUsers(SHOP_TYPE.RESTAURANT, r.shopId).then(response => {
+          console.log('update store users, get response: ', response)
+          commit('SET_STORE_USERS', { storeId: r.shopId, shopUsers: response })
+          resolve()
+        })
+      }))
   }
 
   // addNewStore({ commit }) {

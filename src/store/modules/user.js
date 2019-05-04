@@ -111,7 +111,9 @@ const actions = {
           // trigger the update of the stores linked with user
           console.log('before dispatch to getStoreInfo', data.userShopRoles)
           dispatch('storeDetails/getStoreInfo', data.userShopRoles, { root: true })
+          dispatch('storeDetails/getStoreUsers', data.userShopRoles, { root: true })
           dispatch('product/fetchMenu', data.userShopRoles, { root: true })
+
           resolve(data)
         }).catch(error => {
           reject(error)

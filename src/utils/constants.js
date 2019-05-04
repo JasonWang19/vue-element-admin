@@ -10,11 +10,11 @@ export const SHOP_TYPE = {
   STORE: 'store'
 }
 
-export const SHOP_ROLES = [
-  { text: 'Owner', value: 'shop_owner' },
-  { text: 'Administrator', value: 'shop_admin' },
-  { text: 'User', value: 'shop_worker' }
-]
+export const SHOP_ROLES = {
+  owner: { text: 'Owner', value: 'shop_owner' },
+  admin: { text: 'Administrator', value: 'shop_admin' },
+  user: { text: 'User', value: 'shop_worker' }
+}
 
 export const RESTAURANT_TYPE = {
   single: { key: 'single', value: 'single' },
