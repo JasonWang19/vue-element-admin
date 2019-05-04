@@ -8,6 +8,7 @@ const getters = {
   token: state => state.user.token,
   avatar: state => state.user.avatar,
   name: state => state.user.name,
+  username: state => state.user.username,
   introduction: state => state.user.introduction,
   roles: state => state.user.roles,
   permission_routes: state => state.permission.routes,
@@ -16,6 +17,12 @@ const getters = {
   currentMenu: state => {
     if (state.storeDetails.currentStore !== null && state.product.menus !== null && state.product.menus.length > 0) {
       return state.product.menus.filter(m => m.restaurantId === state.storeDetails.currentStore.id)[0]
+    }
+    return undefined
+  },
+  currentRole: state => {
+    if (state.storeDetails.currentStore !== null && state.user.roles.length > 0) {
+      return state.user.roles.filter(r => r.shopId === state.storeDetails.currentStore.id)[0]
     }
     return undefined
   }

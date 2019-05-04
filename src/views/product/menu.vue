@@ -24,13 +24,6 @@
       />
 
       <el-button
-        v-waves
-        class="filter-item"
-        type="primary"
-        icon="el-icon-search"
-        @click="handleFilter"
-      >{{ $t('menu.search') }}</el-button>
-      <el-button
         class="filter-item"
         style="margin-left: 10px;"
         type="primary"
@@ -75,7 +68,6 @@
       <el-table-column :label="$t('menu.name')" min-width="150px">
         <template slot-scope="scope">
           <span class="link-type" @click="handleUpdate(scope.row)">{{ scope.row.name }}</span>
-          <el-tag>{{ scope.row.type | typeFilter }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column

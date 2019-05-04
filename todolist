@@ -1,0 +1,3 @@
+* only owner and admin can update the store info and get admin related info
+* limit the access of worker
+* order management

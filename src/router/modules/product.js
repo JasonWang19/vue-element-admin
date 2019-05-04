@@ -10,14 +10,16 @@ const productRouter = {
   name: 'Product',
   meta: {
     title: 'Product',
-    icon: 'clipboard'
+    icon: 'clipboard',
+    roles: ['shop_owner', 'admin', 'default']
   },
   children: [
     {
       path: 'menu',
       component: () => import('@/views/product/menu'),
       name: 'menu',
-      meta: { title: 'menu' }
+      meta: { title: 'menu', roles: ['shop_owner', 'admin', 'default']
+      }
     }
   ]
 }

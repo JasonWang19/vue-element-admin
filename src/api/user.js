@@ -60,7 +60,7 @@ export function assignPermission({
   data
 }) {
   return request({
-    url: `/${username}/permission`,
+    url: `/user/${username}/permission`,
     method: 'put',
     data
   })

@@ -2,16 +2,20 @@
 
 // import { login, logout, getInfo } from '@/api/user'
 import { login, getInfo, linkStore } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+// import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, getUsername, setAuth, removeAuth, setToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
+// if the new element is added to user then has to be added to reset
 const state = {
   token: getToken(),
   name: '',
   // avatar: '',
   // introduction: '',
-  roles: [],
-  details: null
+  username: getUsername(),
+  roles: null,
+  details: null,
+  currentRoles: ['default']
 }
 
 const mutations = {
@@ -40,19 +44,31 @@ const mutations = {
   UPDATE_ROLE: (state, role) => {
     state.details.userShopRoles = state.details.userShopRoles.filter(r => r.shopId !== role.shopId)
     state.details.userShopRoles.push(role)
+  },
+  RESET: (state) => {
+    console.log('resetting user state')
+    state.token = ''
+    state.name = ''
+    state.username = ''
+    state.roles = null
+    state.details = null
+    state.currentRoles = ['default']
   }
 }
 
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    let { username } = userInfo
+    const { password } = userInfo
+    username = username.trim()
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ username, password }).then(response => {
         console.log('get response: ', response)
         commit('SET_TOKEN', response.access_token)
-        setToken(response.access_token)
+        // setToken(response.access_token)
         commit('SET_USER_NAME', username)
+        setAuth(response.access_token, username)
         resolve()
       }).catch(error => {
         reject(error)
@@ -76,8 +92,8 @@ const actions = {
             reject('Verification failed, please Login again.')
           }
 
-          // const { userShopRoles, lastName, firstName } = data
-          const { lastName, firstName } = data
+          const { userShopRoles, lastName, firstName } = data
+          // const { lastName, firstName } = data
 
           // roles must be a non-empty array
           // if (!roles || roles.length <= 0) {
@@ -86,7 +102,7 @@ const actions = {
 
           // TODO: temporarily hard code
           // commit('SET_ROLES', userShopRoles)
-          commit('SET_ROLES', ['admin'])
+          commit('SET_ROLES', userShopRoles)
           commit('SET_NAME', `${firstName} ${lastName}`)
           commit('SET_USER_DETAILS', data)
           // commit('SET_AVATAR', avatar)
@@ -95,7 +111,9 @@ const actions = {
           // trigger the update of the stores linked with user
           console.log('before dispatch to getStoreInfo', data.userShopRoles)
           dispatch('storeDetails/getStoreInfo', data.userShopRoles, { root: true })
+          dispatch('storeDetails/getStoreUsers', data.userShopRoles, { root: true })
           dispatch('product/fetchMenu', data.userShopRoles, { root: true })
+
           resolve(data)
         }).catch(error => {
           reject(error)
@@ -117,7 +135,7 @@ const actions = {
       // })
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
-      removeToken()
+      removeAuth()
       resetRouter()
       resolve()
     })
@@ -129,7 +147,8 @@ const actions = {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
-      removeToken()
+      // removeToken()
+      removeAuth()
       resolve()
     })
   },

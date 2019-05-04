@@ -19,13 +19,20 @@ export function update(data) {
 }
 
 export function getStoreInfo(id) {
-  console.log('get store id in api: ', id)
+  console.log('get store info in api: ', id)
   return request({
     url: `/restaurant/${id}`,
     method: 'get'
   })
 }
 
+export function getStoreUsers(type, id) {
+  console.log('get store users in api: ', id)
+  return request({
+    url: `/shopcommon/${type}/users/${id}`,
+    method: 'get'
+  })
+}
 // export function logout() {
 //   return request({
 //     url: '/user/logout',

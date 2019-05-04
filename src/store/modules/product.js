@@ -2,9 +2,11 @@
 
 import { fetchMenu, updateMenu } from '@/api/product'
 
-const state = {
+const initialState = {
   menus: []
 }
+
+const state = Object.assign({}, initialState)
 
 const getters = {
 }
@@ -19,6 +21,13 @@ const mutations = {
     const menus = state.menus.filter(m => m.restaurantId !== menu.restaurantId)
     menus.push(menu)
     state.menus = menus
+  },
+  RESET: (state) => {
+    console.log('resetting state for product')
+
+    for (const key of Object.keys(state)) {
+      state[key] = initialState[key]
+    }
   }
 }
 

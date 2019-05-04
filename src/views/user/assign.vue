@@ -27,10 +27,17 @@
       style="width: 100%"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column prop="date" :label="$t('user.ts')" sortable width="180" />
+      <!-- <el-table-column prop="timestamp" :label="$t('user.ts')" sortable width="180" /> -->
+
+      <el-table-column :label="$t('user.ts')" width="180px">
+        <template slot-scope="scope">
+          <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column prop="username" :label="$t('user.username')" width="180" />
-      <el-table-column prop="name" :label="$t('user.name')" width="180" />
-      <el-table-column prop="role" sortable :label="$t('user.role')" />
+      <el-table-column prop="fullName" :label="$t('user.name')" width="180" />
+      <el-table-column prop="shopRoles" sortable :label="$t('user.role')" />
       <el-table-column
         :label="$t('menu.actions')"
         align="center"
@@ -65,14 +72,9 @@
         <el-form-item :label="$t('user.username')" prop="username">
           <el-input v-model="temp.username" />
         </el-form-item>
-        <el-form-item :label="$t('user.role')">
+        <el-form-item :label="$t('user.role')" prop="shopRole">
           <el-select v-model="temp.shopRole">
-            <el-option
-              v-for="role in roles"
-              :key="role.text"
-              :label="role.text"
-              :value="role.value"
-            />
+            <el-option v-for="r in roles" :key="r.text" :label="r.text" :value="r.value" />
           </el-select>
         </el-form-item>
       </el-form>
@@ -80,7 +82,7 @@
         <el-button @click="dialogUserForm = false">{{ $t('common.cancel') }}</el-button>
         <el-button
           type="primary"
-          @click="dialogStatus==='assign'?assignUserRole():updateUserRole()"
+          @click="dialogStatus==='assign'?assignUserRole('dataForm'):updateUserRole()"
         >{{ $t('common.confirm') }}</el-button>
       </div>
     </el-dialog>
@@ -91,68 +93,62 @@
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import ShowRoles from './components/ShowRoles'
-import { assignPermission } from '@/api/user'
+import { assignPermission, checkUsername } from '@/api/user'
 import { SHOP_ROLES, SHOP_TYPE } from '@/utils/constants'
+import { mapGetters } from 'vuex'
 
 const TEMP = {
   timestamp: new Date(),
-  shopRole: '',
-  username: ''
+  shopRole: null,
+  username: null
 }
 export default {
   name: 'AssignPermission',
   components: { ShowRoles },
   directives: { permission },
   data() {
+    const checkUser = (rule, value, callback) => {
+      console.log('checking username to assign role', rule, value)
+      checkUsername(value).then(data => {
+        if (data) {
+          callback()
+        } else {
+          callback(
+            new Error(`Username ${value} can not be found, please verify!`)
+          )
+        }
+      })
+    }
     return {
       key: 1, // 为了能每次切换权限的时候重新初始化指令
       search: '',
       dialogUserForm: false,
       roles: SHOP_ROLES,
       temp: Object.assign({}, TEMP),
-      userData: [
-        {
-          date: '2016-05-03',
-          name: 'Tom',
-          username: 'tom',
-          role: 'admin'
-        },
-        {
-          date: '2016-05-02',
-          name: 'John',
-          username: 'jo123',
-          role: 'editor'
-        },
-        {
-          date: '2016-05-04',
-          name: 'Morgan',
-          username: 'mg333',
-          role: 'editor'
-        },
-        {
-          date: '2016-05-01',
-          name: 'Jessy',
-          username: 'jy990',
-          role: 'visitor'
-        }
-      ],
       rules: {
-        type: [
-          { required: true, message: 'type is required', trigger: 'change' }
+        username: [
+          { required: true, message: 'need a valid username', trigger: 'blur' },
+          { required: true, validator: checkUser, trigger: 'blur' }
         ],
-        timestamp: [
-          {
-            type: 'date',
-            required: true,
-            message: 'timestamp is required',
-            trigger: 'change'
-          }
-        ],
-        title: [
-          { required: true, message: 'title is required', trigger: 'blur' }
+        shopRole: [
+          { required: true, message: 'role is required', trigger: 'blur' }
         ]
       }
     }
+  },
+  computed: {
+    // userData() {
+    //   // const curMenu = this.$store.getters.currentMenu
+
+    //   console.log('display current users', this.$store.getters['storeDetails/currentStoreUsers'])
+    //   // if (curMenu) {
+    //   //   return curMenu.items
+    //   // }
+    //   return []
+    // },
+    ...mapGetters({
+      userData: 'storeDetails/currentStoreUsers'
+    })
   },
   methods: {
     checkPermission,
@@ -186,22 +182,34 @@ export default {
         this.$refs['dataForm'].clearValidate()
       })
     },
-    assignUserRole() {
-      console.log('assign user role', this.temp)
-      console.log('assign user role, current store', this.$store.state.storeDetails.currentStore.id)
-      return new Promise((resolve, reject) => {
-        return assignPermission({
-          username: this.temp.username,
-          data: {
-            shopType: SHOP_TYPE.RESTAURANT,
-            shopId: this.$store.state.storeDetails.currentStore.id
-          }
-        })
-          .then(response => {
-            console.log('assign user role, ', response)
-            resolve()
+    assignUserRole(formName) {
+      this.$refs[formName].validate(valid => {
+        console.log('assign user role', this.temp)
+        console.log(
+          'assign user role, current store',
+          this.$store.state.storeDetails.currentStore.id
+        )
+        if (valid) {
+          return new Promise((resolve, reject) => {
+            return assignPermission({
+              username: this.temp.username,
+              data: {
+                shopType: SHOP_TYPE.RESTAURANT,
+                shopId: this.$store.state.storeDetails.currentStore.id,
+                shopRoles: [this.temp.shopRole]
+              }
+            })
+              .then(response => {
+                console.log('assign user role, ', response)
+                this.dialogUserForm = false
+                resolve()
+              })
+              .catch(err => reject(err))
           })
-          .catch(err => reject(err))
+        } else {
+          console.log('error submit!!')
+          return false
+        }
       })
     },
     updateUserRole() {
