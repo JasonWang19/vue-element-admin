@@ -55,6 +55,7 @@ export default {
     product: 'Product Management',
     user: 'User Management',
     store: 'Store Management',
+    order: 'Order Management',
     componentIndex: 'Introduction',
     tinymce: 'Tinymce',
     markdown: 'Markdown',
@@ -162,6 +163,15 @@ export default {
     search: 'Input username or name to search',
     addUser: 'Add User',
     deleteUsers: 'Delete Users'
+  },
+  order: {
+    queryStart: 'Please Pick Start Time',
+    queryEnd: 'Please Pick End Time',
+    status: 'Status',
+    id: 'Order #',
+    createDate: 'Create Time',
+    updateDate: 'Update Time',
+    userId: 'User ID'
   },
   documentation: {
     documentation: 'Documentation',

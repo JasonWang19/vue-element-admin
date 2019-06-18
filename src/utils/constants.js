@@ -25,3 +25,10 @@ export const SUPPORT_COUNTRIES = {
   cn: { key: 'cn', value: 'cn', phoneCode: '86' },
   sg: { key: 'sg', value: 'sg', phoneCode: '65' }
 }
+
+export const ORDER_STATUS = {
+  unpaid: { key: 'unpaid', value: 'unpaid' },
+  paid: { key: 'paid', value: 'paid' },
+  completed: { key: 'completed', value: 'completed' },
+  canceled: { key: 'canceled', value: 'canceled' }
+}

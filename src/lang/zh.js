@@ -56,6 +56,7 @@ export default {
     product: '产品管理',
     user: '用户管理',
     store: '商铺管理',
+    order: '订单管理',
     componentIndex: '介绍',
     tinymce: '富文本编辑器',
     markdown: 'Markdown',
@@ -161,6 +162,15 @@ export default {
     search: '输入用户名或者姓名',
     addUser: '添加用户',
     deleteUsers: '删除用户'
+  },
+  order: {
+    queryStart: '请选择开始时间',
+    queryEnd: '请选择结束时间',
+    status: '订单状态',
+    id: '订单号',
+    createDate: '生成时间',
+    updateDate: '更新时间',
+    userId: '用户'
   },
   documentation: {
     documentation: '文档',
