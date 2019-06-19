@@ -36,7 +36,8 @@ export default {
     contact: 'Contact',
     web: 'Webpage',
     facebook: 'Facebook',
-    yelp: 'Yelp'
+    yelp: 'Yelp',
+    close: 'Close'
   },
   route: {
     dashboard: 'Dashboard',
@@ -171,7 +172,17 @@ export default {
     id: 'Order #',
     createDate: 'Create Time',
     updateDate: 'Update Time',
-    userId: 'User ID'
+    userId: 'User ID',
+    items: 'Items',
+    table: 'Table',
+    subtotal: 'Subtotal',
+    couponId: 'Coupon',
+    save: 'Save',
+    tax: 'Tax',
+    tips: 'Tips',
+    total: 'Total',
+    notes: 'Notes'
+
   },
   documentation: {
     documentation: 'Documentation',

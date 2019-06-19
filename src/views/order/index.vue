@@ -27,23 +27,14 @@
         style="width: 100px"
         class="filter-item"
       >
-        <el-option v-for="item in allOrderStatus" :key="item.key" :label="item.value" :value="item.value" />
-      </el-select>
-      <el-select
-        v-model="listQuery.type"
-        :placeholder="$t('table.type')"
-        clearable
-        class="filter-item"
-        style="width: 130px"
-      >
         <el-option
-          v-for="item in calendarTypeOptions"
+          v-for="item in allOrderStatus"
           :key="item.key"
-          :label="item.display_name+'('+item.key+')'"
-          :value="item.key"
+          :label="item.value"
+          :value="item.value"
         />
       </el-select>
-      <el-select
+      <!-- <el-select
         v-model="listQuery.sort"
         style="width: 140px"
         class="filter-item"
@@ -55,7 +46,7 @@
           :label="item.label"
           :value="item.key"
         />
-      </el-select>
+      </el-select>-->
       <el-button
         v-waves
         class="filter-item"
@@ -91,7 +82,7 @@
     >
       <el-table-column :label="$t('order.id')" prop="id" align="center" width="80">
         <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
+          <span class="link-type" @click="handleUpdate(scope.row)">{{ scope.row.id }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('order.createDate')" width="150px" align="center">
@@ -106,12 +97,12 @@
       </el-table-column>
       <el-table-column :label="$t('order.status')" min-width="150px">
         <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{ scope.row.status }}</span>
+          <span class="link-type" @click="handleUpdate(scope.row)">{{ scope.row.orderStatus }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('order.userId')" width="110px" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.userId }}</span>
+          <span class="link-type" @click="handleUpdate(scope.row)">{{ scope.row.userId }}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column v-if="showReviewer" :label="$t('table.reviewer')" width="110px" align="center">
@@ -119,23 +110,17 @@
           <span style="color:red;">{{ scope.row.reviewer }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column :label="$t('table.status')" width="80px">
-        <template slot-scope="scope">
-          <!-- <svg-icon v-for="n in +scope.row.importance" :key="n" icon-class="star" class="meta-item__icon" /> -->
-          <span>{{ scope.row.orderStatus }}</span>
-        </template>
-      </el-table-column>
     </el-table>
 
     <pagination
       v-show="total>0"
       :total="total"
       :page.sync="listQuery.page"
-      :limit.sync="listQuery.limit"
+      :limit.sync="listQuery.size"
       @pagination="getList"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog title="Order Detail" :visible.sync="orderDetailFormVisible">
       <el-form
         ref="dataForm"
         :rules="rules"
@@ -144,54 +129,42 @@
         label-width="70px"
         style="width: 400px; margin-left:50px;"
       >
-        <el-form-item :label="$t('table.type')" prop="type">
-          <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
-            <el-option
-              v-for="item in calendarTypeOptions"
-              :key="item.key"
-              :label="item.display_name"
-              :value="item.key"
-            />
-          </el-select>
+        <el-form-item :label="$t('order.id')">
+          <div>{{ temp.id }}</div>
         </el-form-item>
-        <el-form-item :label="$t('table.date')" prop="timestamp">
-          <el-date-picker
-            v-model="temp.timestamp"
-            type="datetime"
-            placeholder="Please pick a date"
-          />
+        <el-form-item :label="$t('order.createDate')">
+          <div>{{ temp.createDatetime | parseTime('{y}-{m}-{d} {h}:{i}') }}</div>
         </el-form-item>
-        <el-form-item :label="$t('table.title')" prop="title">
-          <el-input v-model="temp.title" />
+        <el-form-item :label="$t('order.updateDate')">
+          <div>{{ temp.updateDatetime | parseTime('{y}-{m}-{d} {h}:{i}') }}</div>
         </el-form-item>
-        <el-form-item :label="$t('table.status')">
-          <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
-          </el-select>
+        <el-form-item :label="$t('order.status')">
+          <div>{{ temp.orderStatus }}</div>
         </el-form-item>
-        <el-form-item :label="$t('table.importance')">
-          <el-rate
-            v-model="temp.importance"
-            :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-            :max="3"
-            style="margin-top:8px;"
-          />
+        <el-form-item :label="$t('order.items')">
+          <div>{{ getItemList(temp.items) }}</div>
         </el-form-item>
-        <el-form-item :label="$t('table.remark')">
-          <el-input
-            v-model="temp.remark"
-            :autosize="{ minRows: 2, maxRows: 4}"
-            type="textarea"
-            placeholder="Please input"
-          />
+        <el-form-item :label="$t('order.subtotal')">
+          <div>{{ temp.subtotal }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('order.couponId')">
+          <div>{{ temp.couponId }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('order.save')">
+          <div>{{ temp.save }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('order.tax')">
+          <div>{{ temp.tax }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('order.tips')">
+          <div>{{ temp.tips }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('order.total')">
+          <div>{{ temp.total }}</div>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">{{ $t('table.cancel') }}</el-button>
-        <el-button
-          type="primary"
-          @click="dialogStatus==='create'?createData():updateData()"
-        >{{ $t('table.confirm') }}</el-button>
+        <el-button @click="orderDetailFormVisible = false">{{ $t('common.close') }}</el-button>
       </div>
     </el-dialog>
 
@@ -274,12 +247,8 @@ export default {
         type: '',
         status: 'published'
       },
-      dialogFormVisible: false,
+      orderDetailFormVisible: false,
       dialogStatus: '',
-      textMap: {
-        update: 'Edit',
-        create: 'Create'
-      },
       dialogPvVisible: false,
       pvData: [],
       rules: {
@@ -301,6 +270,11 @@ export default {
       downloadLoading: false
     }
   },
+  computed: {
+    currentStore() {
+      return this.$store.state.storeDetails.currentStore
+    }
+  },
   created() {
     // this.getList();
   },
@@ -310,13 +284,19 @@ export default {
       console.log(
         'order current state',
         this.$store.state,
-        this.$store.state.storeDetails
+        this.$store.state.storeDetails,
+        this.currentStore
       )
-      this.listQuery.restaurantId = this.$store.state.storeDetails.currentStore
-        ? this.$store.state.storeDetails.currentStore.id
+      this.listQuery.restaurantId = this.currentStore.id
+        ? this.currentStore.id
         : undefined
       if (this.listQuery.restaurantId) {
-        getRestaurantOrderFull(this.listQuery).then(response => {
+        const listQuery = Object.assign({}, this.listQuery)
+        listQuery.start = listQuery.start
+          ? listQuery.start.getTime()
+          : listQuery.start
+        listQuery.end = listQuery.end ? listQuery.end.getTime() : listQuery.end
+        getRestaurantOrderFull(listQuery).then(response => {
           console.log('order query response: ', response)
           this.list = response.content
           this.totalPages = response.totalPages
@@ -335,6 +315,22 @@ export default {
           }, 0.5 * 1000)
         })
       }
+    },
+    getItemList(items) {
+      let itemDetails = []
+      if (items) {
+        const menus = this.$store.state.product.menus.filter(
+          m => m.restaurantId === this.currentStore.id
+        )
+        console.log('item list menus', menus)
+        if (menus) {
+          const menu = menus[0]
+          itemDetails = menu.items.filter(i => items.filter(m => m.key === i.id).length > 0)
+        }
+        console.log('item list', items, itemDetails)
+      }
+
+      return itemDetails
     },
     handleFilter() {
       this.listQuery.page = 0
@@ -375,7 +371,7 @@ export default {
     handleCreate() {
       this.resetTemp()
       this.dialogStatus = 'create'
-      this.dialogFormVisible = true
+      this.orderDetailFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
@@ -387,7 +383,7 @@ export default {
       //     this.temp.author = 'vue-element-admin'
       //     createArticle(this.temp).then(() => {
       //       this.list.unshift(this.temp)
-      //       this.dialogFormVisible = false
+      //       this.orderDetailFormVisible = false
       //       this.$notify({
       //         title: '成功',
       //         message: '创建成功',
@@ -402,7 +398,7 @@ export default {
       this.temp = Object.assign({}, row) // copy obj
       this.temp.timestamp = new Date(this.temp.timestamp)
       this.dialogStatus = 'update'
-      this.dialogFormVisible = true
+      this.orderDetailFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
@@ -420,7 +416,7 @@ export default {
       //           break
       //         }
       //       }
-      //       this.dialogFormVisible = false
+      //       this.orderDetailFormVisible = false
       //       this.$notify({
       //         title: '成功',
       //         message: '更新成功',

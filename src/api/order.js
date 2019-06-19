@@ -1,26 +1,15 @@
 import request from '@/utils/request'
 
-// @JsonProperty("userId")
-// private String userId = null;
-// @JsonProperty("tableId")
-// private String tableId = null;
-// @JsonProperty("items")
-// @Valid
-// private List<Pair<String, Integer>> items = new ArrayList<>();
-// @JsonProperty("subtotal")
-// private BigDecimal subtotal = null;
-// @JsonProperty("couponId")
-// private String couponId = null;
-// @JsonProperty("save")
-// private BigDecimal save = null;
-// @JsonProperty("tax")
-// private BigDecimal tax = null;
-// @JsonProperty("tips")
-// private BigDecimal tips = null;
-// @JsonProperty("total")
-// private BigDecimal total = null;
-// @JsonProperty("notes")
-// private String notes = null;
+// "userId"
+// "tableId"
+// "items"
+// "subtotal"
+// "couponId"
+// "save"
+// "tax"
+// "tips"
+// "total"
+// "notes"
 
 export function getRestaurantOrder({ restaurantId, status }) {
   console.log('get restaurant order in api: ', restaurantId, status)

@@ -36,7 +36,8 @@ export default {
     contact: '联系方式',
     web: '网页',
     facebook: 'facebook',
-    yelp: 'yelp'
+    yelp: 'yelp',
+    close: '关闭'
   },
 
   route: {
@@ -170,7 +171,16 @@ export default {
     id: '订单号',
     createDate: '生成时间',
     updateDate: '更新时间',
-    userId: '用户'
+    userId: '用户',
+    items: '菜品',
+    table: '桌号',
+    subtotal: '价格',
+    couponId: '优惠券',
+    save: '节省',
+    tax: '税',
+    tips: '小费',
+    total: '总计',
+    notes: '其他'
   },
   documentation: {
     documentation: '文档',
