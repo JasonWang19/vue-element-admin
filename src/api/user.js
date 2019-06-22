@@ -23,6 +23,14 @@ export function getInfo(info) {
   })
 }
 
+export function getInfoById(id) {
+  console.log('get info in api by id: ', id)
+  return request({
+    url: '/user/id/' + id,
+    method: 'get'
+  })
+}
+
 export function signup(info) {
   console.log('sign up info', info)
   return request({

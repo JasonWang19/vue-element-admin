@@ -162,7 +162,9 @@ export default {
     ts: '时间',
     search: '输入用户名或者姓名',
     addUser: '添加用户',
-    deleteUsers: '删除用户'
+    deleteUsers: '删除用户',
+    status: '用户状态',
+    type: '用户类型'
   },
   order: {
     queryStart: '请选择开始时间',

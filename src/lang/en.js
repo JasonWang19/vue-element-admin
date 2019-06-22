@@ -21,6 +21,7 @@ export default {
     email: 'Email',
     firstName: 'First Name',
     lastName: 'Last Name',
+    fullName: 'Full Name',
     license: 'License',
     storeType: 'Restaurant Type',
     branchName: 'Branch Name',
@@ -163,7 +164,9 @@ export default {
     ts: 'Date',
     search: 'Input username or name to search',
     addUser: 'Add User',
-    deleteUsers: 'Delete Users'
+    deleteUsers: 'Delete Users',
+    status: 'Status',
+    type: 'User Type'
   },
   order: {
     queryStart: 'Please Pick Start Time',

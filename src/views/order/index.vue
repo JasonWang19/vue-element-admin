@@ -82,7 +82,7 @@
     >
       <el-table-column :label="$t('order.id')" prop="id" align="center" width="80">
         <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{ scope.row.id }}</span>
+          <span class="link-type" @click="handleOrderDetail(scope.row)">{{ scope.row.id }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('order.createDate')" width="150px" align="center">
@@ -97,12 +97,12 @@
       </el-table-column>
       <el-table-column :label="$t('order.status')" min-width="150px">
         <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{ scope.row.orderStatus }}</span>
+          <span class="link-type" @click="handleOrderDetail(scope.row)">{{ scope.row.orderStatus }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('order.userId')" width="110px" align="center">
         <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{ scope.row.userId }}</span>
+          <span class="link-type" @click="handleUserDetail(scope.row)">{{ scope.row.userId }}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column v-if="showReviewer" :label="$t('table.reviewer')" width="110px" align="center">
@@ -122,8 +122,6 @@
 
     <el-dialog title="Order Detail" :visible.sync="orderDetailFormVisible">
       <el-form
-        ref="dataForm"
-        :rules="rules"
         :model="temp"
         label-position="left"
         label-width="70px"
@@ -168,13 +166,40 @@
       </div>
     </el-dialog>
 
-    <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel" />
-        <el-table-column prop="pv" label="Pv" />
-      </el-table>
+    <el-dialog :visible.sync="userDetailFormVisible" title="User Detail">
+      <el-form
+        :model="tempUser"
+        label-position="left"
+        label-width="70px"
+        style="width: 400px; margin-left:50px;"
+      >
+        <el-form-item :label="$t('order.userId')">
+          <div>{{ tempUser.id }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('user.username')">
+          <div>{{ tempUser.username }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('common.firstName')">
+          <div>{{ tempUser.firstName }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('common.lastName')">
+          <div>{{ tempUser.lastName }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('common.email')">
+          <div>{{ tempUser.contact.email }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('common.phoneNumber')">
+          <div>{{ tempUser.contact.phoneNumber }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('user.type')">
+          <div>{{ tempUser.userType }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('user.status')">
+          <div>{{ tempUser.userStatus }}</div>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogPvVisible = false">{{ $t('table.confirm') }}</el-button>
+        <el-button @click="userDetailFormVisible = false">{{ $t('common.close') }}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -186,19 +211,7 @@ import waves from '@/directive/waves' // Waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import { ORDER_STATUS } from '@/utils/constants'
-
-const calendarTypeOptions = [
-  { key: 'CN', display_name: 'China' },
-  { key: 'US', display_name: 'USA' },
-  { key: 'JP', display_name: 'Japan' },
-  { key: 'EU', display_name: 'Eurozone' }
-]
-
-// arr to obj ,such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
+import { getInfoById } from '@/api/user'
 
 export default {
   name: 'ComplexTable',
@@ -212,9 +225,6 @@ export default {
         deleted: 'danger'
       }
       return statusMap[status]
-    },
-    typeFilter(type) {
-      return calendarTypeKeyValue[type]
     }
   },
   data() {
@@ -231,7 +241,6 @@ export default {
         status: undefined
       },
       allOrderStatus: ORDER_STATUS,
-      calendarTypeOptions,
       sortOptions: [
         { label: 'ID Ascending', key: '+id' },
         { label: 'ID Descending', key: '-id' }
@@ -247,8 +256,9 @@ export default {
         type: '',
         status: 'published'
       },
+      tempUser: { contact: {}},
       orderDetailFormVisible: false,
-      dialogStatus: '',
+      userDetailFormVisible: false,
       dialogPvVisible: false,
       pvData: [],
       rules: {
@@ -325,7 +335,9 @@ export default {
         console.log('item list menus', menus)
         if (menus) {
           const menu = menus[0]
-          itemDetails = menu.items.filter(i => items.filter(m => m.key === i.id).length > 0)
+          itemDetails = menu.items.filter(
+            i => items.filter(m => m.key === i.id).length > 0
+          )
         }
         console.log('item list', items, itemDetails)
       }
@@ -368,14 +380,6 @@ export default {
         type: ''
       }
     },
-    handleCreate() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.orderDetailFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
     createData() {
       // this.$refs['dataForm'].validate(valid => {
       //   if (valid) {
@@ -394,15 +398,21 @@ export default {
       //   }
       // })
     },
-    handleUpdate(row) {
+    handleOrderDetail(row) {
       this.temp = Object.assign({}, row) // copy obj
       this.temp.timestamp = new Date(this.temp.timestamp)
-      this.dialogStatus = 'update'
       this.orderDetailFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
     },
+    handleUserDetail(row) {
+      this.userDetailFormVisible = true
+      const userId = row.userId
+      getInfoById(userId)
+        .then(data => {
+          console.log('-- get data of the user info:', data)
+          this.tempUser = data
+        })
+    },
+
     updateData() {
       // this.$refs['dataForm'].validate(valid => {
       //   if (valid) {
@@ -436,12 +446,6 @@ export default {
       })
       const index = this.list.indexOf(row)
       this.list.splice(index, 1)
-    },
-    handleFetchPv(pv) {
-      // fetchPv(pv).then(response => {
-      //   this.pvData = response.data.pvData
-      //   this.dialogPvVisible = true
-      // })
     },
     handleDownload() {
       this.downloadLoading = true
