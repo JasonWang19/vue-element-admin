@@ -36,7 +36,8 @@ export default {
     contact: '联系方式',
     web: '网页',
     facebook: 'facebook',
-    yelp: 'yelp'
+    yelp: 'yelp',
+    close: '关闭'
   },
 
   route: {
@@ -56,6 +57,7 @@ export default {
     product: '产品管理',
     user: '用户管理',
     store: '商铺管理',
+    order: '订单管理',
     componentIndex: '介绍',
     tinymce: '富文本编辑器',
     markdown: 'Markdown',
@@ -160,7 +162,27 @@ export default {
     ts: '时间',
     search: '输入用户名或者姓名',
     addUser: '添加用户',
-    deleteUsers: '删除用户'
+    deleteUsers: '删除用户',
+    status: '用户状态',
+    type: '用户类型'
+  },
+  order: {
+    queryStart: '请选择开始时间',
+    queryEnd: '请选择结束时间',
+    status: '订单状态',
+    id: '订单号',
+    createDate: '生成时间',
+    updateDate: '更新时间',
+    userId: '用户',
+    items: '菜品',
+    table: '桌号',
+    subtotal: '价格',
+    couponId: '优惠券',
+    save: '节省',
+    tax: '税',
+    tips: '小费',
+    total: '总计',
+    notes: '其他'
   },
   documentation: {
     documentation: '文档',

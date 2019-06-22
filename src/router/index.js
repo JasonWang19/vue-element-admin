@@ -115,6 +115,7 @@ export const constantRoutes = [
       }
     ]
   }
+
   // {
   //   path: '/documentation',
   //   component: Layout,
@@ -193,6 +194,26 @@ export const asyncRoutes = [
     ]
   },
 
+  // order management
+  {
+    path: '/order',
+    component: Layout,
+    meta: {
+      roles: ['shop_owner', 'admin', 'default']
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/order/index'),
+        name: 'Order',
+        meta: {
+          title: 'order',
+          icon: 'form',
+          roles: ['shop_owner', 'admin', 'default'],
+          noCache: true }
+      }
+    ]
+  },
   // {
   //   path: '/permission',
   //   component: Layout,

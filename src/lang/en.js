@@ -21,6 +21,7 @@ export default {
     email: 'Email',
     firstName: 'First Name',
     lastName: 'Last Name',
+    fullName: 'Full Name',
     license: 'License',
     storeType: 'Restaurant Type',
     branchName: 'Branch Name',
@@ -36,7 +37,8 @@ export default {
     contact: 'Contact',
     web: 'Webpage',
     facebook: 'Facebook',
-    yelp: 'Yelp'
+    yelp: 'Yelp',
+    close: 'Close'
   },
   route: {
     dashboard: 'Dashboard',
@@ -55,6 +57,7 @@ export default {
     product: 'Product Management',
     user: 'User Management',
     store: 'Store Management',
+    order: 'Order Management',
     componentIndex: 'Introduction',
     tinymce: 'Tinymce',
     markdown: 'Markdown',
@@ -161,7 +164,28 @@ export default {
     ts: 'Date',
     search: 'Input username or name to search',
     addUser: 'Add User',
-    deleteUsers: 'Delete Users'
+    deleteUsers: 'Delete Users',
+    status: 'Status',
+    type: 'User Type'
+  },
+  order: {
+    queryStart: 'Please Pick Start Time',
+    queryEnd: 'Please Pick End Time',
+    status: 'Status',
+    id: 'Order #',
+    createDate: 'Create Time',
+    updateDate: 'Update Time',
+    userId: 'User ID',
+    items: 'Items',
+    table: 'Table',
+    subtotal: 'Subtotal',
+    couponId: 'Coupon',
+    save: 'Save',
+    tax: 'Tax',
+    tips: 'Tips',
+    total: 'Total',
+    notes: 'Notes'
+
   },
   documentation: {
     documentation: 'Documentation',
